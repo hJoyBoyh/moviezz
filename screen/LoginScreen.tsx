@@ -6,11 +6,12 @@ import {
   SafeAreaView,
   StyleSheet,
   Text,
+  TextInput,
   View,
 } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 
-export function LoginScreen({}){
+export function LoginScreen({navigation}){
     return(
       <SafeAreaView style={styles.container}>
   
@@ -20,6 +21,15 @@ export function LoginScreen({}){
        <View>
         <Text style={styles.title}> Login</Text>
        </View>
+       <View style={styles.form}>
+        <TextInput placeholder="Email"  placeholderTextColor="white"  style={styles.input}/>
+        <TextInput placeholder="Password"  placeholderTextColor="white"  style={styles.input}/>
+       </View>
+       <View>
+          <Pressable style={styles.button} onPress={ () => navigation.navigate('Login')}>
+            <Text style={styles.buttonText}>Login</Text>
+          </Pressable>
+        </View>
   
       </SafeAreaView>
     )
@@ -31,11 +41,15 @@ export function LoginScreen({}){
     container:{
       display:'flex',
       flex:1,
-      justifyContent:'center',
+      justifyContent:'space-around',
       alignItems: 'center',
       backgroundColor:'#292928'
     },
-   
+   form:{
+    height:200,
+    display:'flex',
+    justifyContent:'space-evenly',
+   },
      loginImg:{
       height:200,
       width:200,
@@ -46,10 +60,16 @@ export function LoginScreen({}){
       fontSize:50,
       color:'white'
      },
+     input:{
+      color:'white',
+      width:350,
+      borderBottomColor:'#ffffff',
+      borderBottomWidth:1,
+     },
      button:{
       height:60,
-      width:350,
-      marginBottom:20,
+      width:310,
+      
       display:'flex',
       justifyContent:'center',
       backgroundColor:'#d1c800',
@@ -60,7 +80,8 @@ export function LoginScreen({}){
       fontSize:24,
       color:'#ffffff',
       fontWeight:'bold',
-      marginLeft:15
+      
+      textAlign:'center'
      }
      
     
