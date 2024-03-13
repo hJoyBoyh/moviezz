@@ -1,3 +1,6 @@
+/* eslint-disable react/self-closing-comp */
+/* eslint-disable prettier/prettier */
+/* eslint-disable no-trailing-spaces */
 import React from 'react';
 
 import {
@@ -42,9 +45,10 @@ export function OnboardingScreen({navigation}){
     logo:{
       height:145,
       width:350,
-      marginTop:20
+      marginTop:20,
   
      },
+     
      loginImg:{
       height:280,
       width:350,

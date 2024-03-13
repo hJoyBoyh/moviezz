@@ -1,9 +1,13 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /**
  * Sample React Native App
  * https://github.com/facebook/react-native
  *
  * @format
  */
+import 'react-native-gesture-handler';
+
 
 import React from 'react';
 import type {PropsWithChildren} from 'react';
@@ -31,6 +35,7 @@ import {
 
 import { NavigationContainer } from '@react-navigation/native';
 import { AuthStack } from './navigation/AuthStack';
+import { AppStack } from './navigation/AppStack';
 
 
 
@@ -38,8 +43,9 @@ function App(): React.JSX.Element {
 
   return (
     <NavigationContainer>
+      <AppStack></AppStack>
       
-      <AuthStack></AuthStack>
+      {/* <AuthStack></AuthStack> */}
 
     </NavigationContainer>
 

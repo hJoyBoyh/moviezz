@@ -14,38 +14,34 @@ import {
   View,
 } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { ImageAuth } from '../components/ImageAuth';
+
 import { Title } from '../components/Title';
-import { Button1 } from '../components/Button1';
 import { Form } from '../components/Form';
 import { InputText } from '../components/InputText';
+import { Button1 } from '../components/Button1';
 
-export function LoginScreen({ navigation }) {
+export function ChangePasswordScreen({ navigation }) {
   return (
 
     <SafeAreaView style={styles.container}>
       <KeyboardAvoidingView behavior={'height'}>
         <View style={styles.content}>
+        <Title title="Change Password"/>
+        <Form  input01={
+            <InputText placeholder="Current Password:-" editable={false}/>
+        }
+        input02={
+            <InputText placeholder="New password"/>
+        }
+        input03={
+            <InputText placeholder="Re-enter new password"/>
+        }
+        />
 
-          <ImageAuth source={require('../assets/loginImg.png')} ></ImageAuth>
-
-          <Title title='Login'></Title>
-
-
-          <Form
-            input01={<InputText placeholder='Email'/>}
-            input02={<InputText placeholder='Password' secureTextEntry={true}/>}
-          />
-
-          <Button1 title='Login' onPress={() => navigation.navigate('Register')}></Button1>
-
-          <View style={styles.textContainer}>
-            <Text style={styles.text}>New to the app ?</Text>
-            <Text style={styles.textNavigation} onPress={() => navigation.navigate('Register')}>Register</Text>
-          </View>
-
+        <Button1 title="Confirm"></Button1>
+   
         </View>
-      </KeyboardAvoidingView>
+        </KeyboardAvoidingView>
     </SafeAreaView>
   )
 }
@@ -57,17 +53,21 @@ const styles = StyleSheet.create({
 
   container: {
     display: 'flex',
+    
     flex: 1,
     justifyContent: 'space-around',
+    
     alignItems: 'center',
     backgroundColor: '#292928'
   },
   content: {
     display: 'flex',
-    gap: 20,
+    flex: 1,
     justifyContent: 'space-around',
     alignItems: 'center',
-    backgroundColor: '#292928'
+    
+    gap: 20,
+    
   },
   textContainer: {
     display: 'flex',
