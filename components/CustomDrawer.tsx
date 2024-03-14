@@ -15,7 +15,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 function CustomDrawer(props) {
   return (
     <View style={styles.container}>
-      <Text>Usename</Text>
+      <Text style={styles.username}>Hi, John Doe</Text>
 
       <DrawerContentScrollView
         {...props}
@@ -48,6 +48,12 @@ export default CustomDrawer;
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#1b1b1b' },
+  username:{
+    color:'white',
+    textAlign:'center',
+    fontSize:24,
+    marginTop:10,
+  },
   drawerListContainer: { 
     flex: 1, 
     backgroundColor: '#1b1b1b',

@@ -11,18 +11,22 @@ import {
   View,
 } from 'react-native';
 
-
+//props : hideSeeAll(hide the see all text)- firstWord(first word is the first word of the title in gold color) - restWord( the rest of the word of the title in white) 
 export function SubTitle(props){
+  
+
     return(
-<View style={styles.subTitleContainer}>
+<View style={styles.container}>
+  <View style={styles.subTitleContainer}>
         <Text style={styles.firstWord}>{props.firstWord}</Text>
         <Text style={styles.restWord}>{props.restWord}</Text>
-        {props.hideSeeAll ?
-        <View></View>
-        :  <View style={styles.seeAllContainer}>
-        <Text style={styles.seeAll} onPress={props.onPress}>See all</Text>
+    </View>
+        
+        
+          <View>
+        <Text style={ props.hideSeeAll ?  styles.seeAll:styles.hideSeeAll} onPress={props.onPress}>See all</Text>
         </View>
-        }
+        
        
 
 
@@ -32,11 +36,20 @@ export function SubTitle(props){
 
 
   const styles = StyleSheet.create({
+    container: {
+      width:380,
+      
+      display:'flex',
+      flexDirection:'row',
+      justifyContent: 'space-between',
+      
+  },
     subTitleContainer: {
-        width:380,
+        
         display:'flex',
         flexDirection:'row',
-        justifyContent: 'flex-start',
+        justifyContent: 'space-between',
+        marginLeft:14
     },
     
     firstWord:{
@@ -51,10 +64,14 @@ export function SubTitle(props){
         display: 'flex',
         justifyContent:'flex-end',
         alignItems: 'flex-end',
-        flexBasis:150,
+        
        },
        seeAll:{
         fontSize:24,
         color:'white'
+       },
+       hideSeeAll:{
+        fontSize:24,
+        color:'#292928'
        }
   });

@@ -18,28 +18,25 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Image, TouchableOpacity } from 'react-native'
 import { DrawerActions } from '@react-navigation/native';
+import { LogoMini } from '../components/LogoMini';
+import { IconSearch } from '../components/IconSearch';
 
 const Drawer = createDrawerNavigator();
 
-function LogoMini() {
-    return (
-     <Image  style={{ width: 60, height: 40 }} source={require('../assets/miniLogoColorImg.png')} />
-    );
-  }
-  function IconSearch() {
-    return (
-     <Ionicons name='search' color='white' size={25} style={{ marginRight:10}} />
-    );
-  }
+
+
+
+
 
 export function AppStack({}) {
     return (
         <Drawer.Navigator drawerContent={props => <CustomDrawer {...props} />}
             screenOptions={{
                 headerTintColor:'white',
-                
-                 headerTitle: ((props) => <LogoMini {...props} />),
-                 headerRight: ((props) => <IconSearch {...props} />),
+                // search icon pour changer de screen marche par je suggere quon l enleve et qu on y accede a partir du menu drawer
+                headerRight: ((props) => <IconSearch />),
+
+                 headerTitle: ((props) => <LogoMini />),
                  headerStyle: {
                     backgroundColor: '#292928'
                   },
@@ -61,6 +58,7 @@ export function AppStack({}) {
                 drawerIcon: ({ color }) => (
                     <Ionicons name="home-outline" size={22} color={color} />
                 ), 
+
             }} />
          
             <Drawer.Screen name="Favorite" component={FavoriteScreen} options={{
@@ -80,14 +78,19 @@ export function AppStack({}) {
                 drawerIcon: ({ color }) => (
                     <Ionicons name="settings-outline" size={22} color={color} />
                 ),
-             
+                
+                
             }} />
 
             {/* not show the search menu */}
                <Drawer.Screen name="Search" options={{
-                headerShown: false, drawerLabel: () => null,
-                title: undefined,
-                drawerIcon: () => null,
+                headerShown: false,
+                drawerIcon: ({ color }) => (
+                    <Ionicons name="search-outline" size={22} color={color} />
+                ),
+                // drawerLabel: () => null,
+                // title: undefined,
+                // drawerIcon: () => null,
             }} component={SearchScreen} />
             {/* <Stack.Screen name="ChangeEmail" component={ChangeEmailScreen}/> */}
 

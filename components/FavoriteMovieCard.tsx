@@ -10,14 +10,25 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
-export function CardMovie(props) {
+export function FavoriteMovieCard(props) {
   return (
     // <TouchableOpacity >
       <View style={styles.card} onPress={props.onPress}>
+        <View>
         <Image source={props.source} style={styles.image}></Image>
+        </View>
+        
+        <View style={styles.viewInfo}>
         <Text style={styles.text}>{props.title}</Text>
         <Text style={styles.text}>{props.year}</Text>
+        <Text style={styles.description}>{props.description}</Text>
+        
+        <Ionicons name='heart-outline' color='white' size={25} />
+        </View>
+        
+
       </View>
     // </TouchableOpacity>
   );
@@ -27,10 +38,12 @@ export function CardMovie(props) {
 const styles = StyleSheet.create({
   card: {
     display: 'flex',
-    justifyContent: 'center',
+    flexDirection:'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
     margin: 10,
-    marginTop: 20
+    marginTop: 20,
+    width:340,
 
   },
   image: {
@@ -39,9 +52,20 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginBottom: 10
   },
+  viewInfo:{
+    
+    gap:7,
+  },
   text: {
 
     color: 'white',
-    textAlign: 'center',
+    
+  },
+  description:{
+    color: 'white',
+    width:200,
+    height:69,
+    overflow:'hidden'
+   
   }
 });
