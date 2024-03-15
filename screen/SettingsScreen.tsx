@@ -17,6 +17,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import { CardMovie } from '../components/CardMovie';
 import Icon from 'react-native-vector-icons/FontAwesome'
 import { SubTitle } from '../components/SubTitle';
+import { Title } from '../components/Title';
+import { Form } from '../components/Form';
+import { InputText } from '../components/InputText';
 
 
 export function SettingsScreen({ navigation }) {
@@ -24,6 +27,11 @@ export function SettingsScreen({ navigation }) {
 
     <SafeAreaView style={styles.container}>
 <SubTitle firstWord='Settings' hideSeeAll={false}></SubTitle>
+<Title title='Hi, John Doe'/>
+<Form 
+input01={<InputText placeholder='Email - Kenny@gmail.com' editable={false} onPress={() => navigation.navigate('ChangeEmail')}/>}
+input02={<InputText placeholder='Password - ' editable={false} onPress={() => navigation.navigate('ChangePassword')}/>}
+/>
       
 
       
@@ -38,10 +46,10 @@ const styles = StyleSheet.create({
 
   container: {
     display: 'flex',
-    flexDirection:'row',
+
     flex: 1,
-    justifyContent: 'center',
-    gap:15,
+
+    
     alignItems: 'center',
     backgroundColor: '#292928'
   },

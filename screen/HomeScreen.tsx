@@ -1,6 +1,6 @@
 /* eslint-disable react/self-closing-comp */
 /* eslint-disable prettier/prettier */
-import React from 'react';
+import React, { useContext } from 'react';
 
 import {
   Image,
@@ -56,9 +56,13 @@ const DATA = [
   },
   
 ];
+import auth from '@react-native-firebase/auth';
+import { AppContext } from '../context/AppContext';
 
 
 export function HomeScreen({ navigation }) {
+ 
+  
   return (
 
     <SafeAreaView style={styles.container}>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   View,
   Text,
@@ -11,11 +11,15 @@ import {
 } from '@react-navigation/drawer';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { AppContext } from '../context/AppContext';
 
 function CustomDrawer(props) {
+  const {initializing, user, signOut} = useContext(AppContext)
+  let username = user.email.split('@')[0]
+
   return (
     <View style={styles.container}>
-      <Text style={styles.username}>Hi, John Doe</Text>
+      <Text style={styles.username}>{username}</Text>
 
       <DrawerContentScrollView
         {...props}
@@ -28,7 +32,7 @@ function CustomDrawer(props) {
       </DrawerContentScrollView>
 
       <View style={styles.buttomMenuContainer}>
-        <TouchableOpacity onPress={() => { }} style={styles.signOutTouchable}>
+        <TouchableOpacity onPress={() => signOut()} style={styles.signOutTouchable}>
           <View style={styles.signOutContainer}>
             <Ionicons name="exit-outline" size={22} color={'white'} />
             <Text

@@ -1,6 +1,6 @@
 /* eslint-disable react/self-closing-comp */
 /* eslint-disable prettier/prettier */
-import React from 'react';
+import React, { useContext, useState } from 'react';
 
 import {
   Image,
@@ -15,8 +15,13 @@ import {
 } from 'react-native';
 import { InputText } from '../components/InputText';
 import { NavigationContainer } from '@react-navigation/native';
+import { AppContext } from '../context/AppContext';
 
 export function RegisterScreen({ navigation }) {
+  const {initializing, user, signUp} = useContext(AppContext)
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+
   return (
 
     <SafeAreaView style={styles.container}>
@@ -30,12 +35,12 @@ export function RegisterScreen({ navigation }) {
             <Text style={styles.title}>Register</Text>
           </View>
           <View style={styles.form}>
-            <InputText placeholder="Username"></InputText>
-            <InputText placeholder="Email"></InputText>
-            <InputText placeholder="Password" secureTextEntry={true}></InputText>
+            {/* <InputText placeholder="Username"></InputText> */}
+            <InputText placeholder="Email" value={email} onChangeText={ text => setEmail(text)} hideRedirectionIcon={true}></InputText>
+            <InputText placeholder="Password"  value={password} onChangeText={ password => setPassword(password)} secureTextEntry={true} hideRedirectionIcon={true}></InputText>
           </View>
           <View>
-            <Pressable style={styles.button} >
+            <Pressable style={styles.button}  onPress={()=> signUp(email,password) }>
               <Text style={styles.buttonText}>Register</Text>
             </Pressable>
           </View>
