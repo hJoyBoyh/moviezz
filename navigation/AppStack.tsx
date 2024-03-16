@@ -87,13 +87,30 @@ export function AppStack({}) {
             ),
               })}
            />
-            <Drawer.Screen name="Cinema" component={CinemaNearMeScreen} options={{
-                drawerIcon: ({ color }) => (
-                    <MaterialCommunityIcons name="movie-outline" size={22} color={color} />
+            <Drawer.Screen name="Cinema" component={CinemaNearMeScreen}options={({ navigation }) => ({
+                headerRight: () => (
+                  <TouchableOpacity
+                    style={styles.buttonStyle}
+                    onPress={() => navigation.navigate('Search')}>
+                    <Ionicons name="search-outline" size={22} color='white' />
+                  </TouchableOpacity>
                 ),
-                title:'Cinema near me'
+                headerTitle: () => <LogoMini />,
+                drawerActiveBackgroundColor: 'gold',
+                drawerActiveTintColor: '#000',
+                drawerInactiveTintColor: 'white',
+                drawerLabelStyle: {
+                  fontFamily: 'Roboto-Medium',
+                  fontSize: 15,
+                },
+              
+              drawerIcon: ({ color }) => (
+                <MaterialCommunityIcons name="movie-outline" size={22} color={color} />
+            ),
+              })} 
+                
              
-            }} />
+             />
             <Drawer.Screen name="Settings" component={SettingsScreen} options={{
                 drawerIcon: ({ color }) => (
                     <Ionicons name="settings-outline" size={22} color={color} />

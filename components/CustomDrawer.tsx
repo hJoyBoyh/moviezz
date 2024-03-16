@@ -14,12 +14,12 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { AppContext } from '../context/AppContext';
 
 function CustomDrawer(props) {
-  const {initializing, user, signOut} = useContext(AppContext)
-  let username = user.email.split('@')[0]
+  // const {initializing, user, signOut} = useContext(AppContext)
+  // let username = user.email.split('@')[0]
 
   return (
     <View style={styles.container}>
-      <Text style={styles.username}>{username}</Text>
+      <Text style={styles.username}>Hi john doe</Text>
 
       <DrawerContentScrollView
         {...props}
@@ -32,7 +32,7 @@ function CustomDrawer(props) {
       </DrawerContentScrollView>
 
       <View style={styles.buttomMenuContainer}>
-        <TouchableOpacity onPress={() => signOut()} style={styles.signOutTouchable}>
+        <TouchableOpacity  style={styles.signOutTouchable}>
           <View style={styles.signOutContainer}>
             <Ionicons name="exit-outline" size={22} color={'white'} />
             <Text

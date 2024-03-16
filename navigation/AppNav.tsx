@@ -18,14 +18,14 @@ export function AppNav(){
         // )
     // }
 
-    const {initializing, user} = useContext(AppContext)
-    if (initializing) return null;
+    // const {initializing, user} = useContext(AppContext)
+    // if (initializing) return null;
   return (
     
     <NavigationContainer>
         {/* {userToken !== '' ? <AppStack></AppStack>: <AuthStack></AuthStack> } */}
-      {/* <AppStack></AppStack> */}
-        {!user  ?<AuthStack></AuthStack> : <AppStack></AppStack>}
+      <AppStack></AppStack>
+        {/* {!user  ?<AuthStack></AuthStack> : <AppStack></AppStack>} */}
 
      
 

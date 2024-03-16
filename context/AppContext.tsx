@@ -1,7 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { createContext, useState, useEffect } from "react";
-import auth from '@react-native-firebase/auth';
-import signInWithEmailAndPassword from '@react-native-firebase/auth'
 
 
 
@@ -59,61 +57,13 @@ export const AppProvider = ({ children }) => {
         </AppContext.Provider>
     )
     */
-    const [initializing, setInitializing] = useState(true);
-    const [user, setUser] = useState();
 
-    const login = (email,password)=>{
-        auth()
-        .signInWithEmailAndPassword(email, password)
-        .then(() => {
-            console.log('User & login!');
-        })
-        .catch(error => {
-          
-
-            console.error(error);
-        });
-}
     
 
 
-    const signUp = (email, password) => {
-
-        auth()
-            .createUserWithEmailAndPassword(email, password)
-            .then(() => {
-                console.log('User account created & signed in!');
-            })
-            .catch(error => {
-                if (error.code === 'auth/email-already-in-use') {
-                    console.log('That email address is already in use!');
-                }
-
-                if (error.code === 'auth/invalid-email') {
-                    console.log('That email address is invalid!');
-                }
-
-                console.error(error);
-            });
-    }
-    const signOut = () =>{
-        auth()
-  .signOut()
-  .then(() => console.log('User signed out!'));
-    }
-
-    // Handle user state changes
-    function onAuthStateChanged(user) {
-        setUser(user);
-        if (initializing) setInitializing(false);
-    }
-
-    useEffect(() => {
-        const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-        return subscriber; // unsubscribe on unmount
-    }, []);
+   
     return (
-        <AppContext.Provider value={{ initializing, user, signUp, signOut , login }} >
+        <AppContext.Provider value={{}} >
             {children}
         </AppContext.Provider>
     )
