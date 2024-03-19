@@ -13,13 +13,12 @@ import {
 
 export function CardMovie(props) {
   return (
-    // <TouchableOpacity >
-      <View style={styles.card} onPress={props.onPress}>
-        <Image source={props.source} style={styles.image}></Image>
-        <Text style={styles.text}>{props.title}</Text>
+     <TouchableOpacity  onPress={props.onPress}>
+      <View style={styles.card} >
+        <Image source={props.source} style={styles.image} ></Image>
         <Text style={styles.text}>{props.year}</Text>
       </View>
-    // </TouchableOpacity>
+     </TouchableOpacity>
   );
 }
 
@@ -39,9 +38,18 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginBottom: 10
   },
+  textTitle: {
+
+    color: 'white',
+    textAlign: 'center',
+
+   position: 'absolute',
+
+  },
   text: {
 
     color: 'white',
     textAlign: 'center',
+   
   }
 });

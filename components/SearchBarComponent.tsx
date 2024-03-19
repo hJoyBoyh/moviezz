@@ -1,15 +1,27 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { SearchBar } from '@rneui/themed';
 import { View, Text, StyleSheet } from 'react-native';
+import { AppContext } from '../context/AppContext';
+import { fetchSearchMovies } from '../moviezz-api/model';
 
 type SearchBarComponentProps = {};
 
 const SearchBarComponent: React.FunctionComponent<SearchBarComponentProps> = () => {
-const [search, setSearch] = useState("");
+const {setSearchTerm,searchTerm,resultSearch,setResultSearch,getSearchMovies} = useContext(AppContext)
 
-const updateSearch = (search) => {
-  setSearch(search);
+
+const updateSearch = (e) => {
+  getSearchMovies()
+  setSearchTerm(e)
+  
+  
+  console.log('haha')
+ // console.log(resultSearch)
+ // console.log(searchTerm)
+ 
 };
+
+
 
 return (
   
@@ -18,8 +30,8 @@ return (
     containerStyle={styles.container}
     inputContainerStyle={styles.inputContainer}
       placeholder="What do you want to watch ?"
-      onChangeText={updateSearch}
-      value={search}
+      onChangeText={text =>updateSearch(text)}
+      value={searchTerm}
     />
   </View>
   
@@ -40,7 +52,8 @@ view: {
 container:{
   backgroundColor:'#292928',
   borderBottomColor:'#292928',
-  borderTopColor:'#292928', 
+  borderTopColor:'#292928',
+  
  
 },
 inputContainer:{

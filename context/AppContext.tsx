@@ -2,79 +2,43 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { createContext, useState, useEffect } from "react";
 import auth from '@react-native-firebase/auth';
 import signInWithEmailAndPassword from '@react-native-firebase/auth'
+import { fetchDiscoverMovies, fetchSearchMovies, fetchTopMovies, fetchTrendingMovies, fetchTypeMovies, fetchVideoSelectedMovies } from "../moviezz-api/model";
 
 
 
 export const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
-    /*
-    const [isLoading,setIsLoading] = useState(false);
-    const [userToken, setUserToken] = useState('');
-    
-
-    const signIn = async () =>{
-        setIsLoading(true)
-        try {
-            const response = await signInWithEmailAndPassword(auth,email,password)
-        } catch (error) {
-            
-        }
-    }
-
-    const login = ()=>{
-        setIsLoading(true)
-        setUserToken('iosdj');
-        AsyncStorage.setItem('userToken', 'iosdj')
-        setIsLoading(false);
-        
-    }
-    const logout = ()=>{
-        setIsLoading(true);
-        setUserToken('');
-        AsyncStorage.removeItem('userToken')
-        setIsLoading(false);
-        
-    }
-   
-    const isLoggedIn = async()=>{
-        try {
-           setIsLoading(true)
-            let userToken = await AsyncStorage.getItem('userToken')
-            setUserToken(userToken)
-            setIsLoading(false);
-        } catch (error) {
-            console.log(`is logged in error ${error}`)
-        }
-       
-    }
-    useEffect(()=>{
-        isLoggedIn()
-    },[])
-   
-
-    return(
-        <AppContext.Provider value={{login,logout,isLoading, userToken}} >
-            {children}
-        </AppContext.Provider>
-    )
-    */
+   //auth variables
     const [initializing, setInitializing] = useState(true);
     const [user, setUser] = useState();
 
-    const login = (email,password)=>{
-        auth()
-        .signInWithEmailAndPassword(email, password)
-        .then(() => {
-            console.log('User & login!');
-        })
-        .catch(error => {
-          
+    // movies variables
+    const [trendingMovies, setTrendingMovies] = useState([]);
+    const [topMovies, setTopMovies] = useState([]);
+    const [discoverMovies, setDiscoverMovies] = useState([]);
+    const [typeMovies,setTypeMovies] = useState([]);
 
-            console.error(error);
-        });
-}
-    
+    const [searchTerm, setSearchTerm] = useState('');
+    const [resultSearch, setResultSearch] = useState([]);
+
+    const [selectedMovie, setSelectedMovie] = useState('')
+    const [videoSelectedMovie, setVideoSelectedMovie] = useState('')
+
+    // auth functions
+    const login = (email, password) => {
+        auth()
+            .signInWithEmailAndPassword(email, password)
+            .then(() => {
+                console.log('User & login!');
+            })
+            .catch(error => {
+
+
+                console.error(error);
+            });
+    }
+
 
 
     const signUp = (email, password) => {
@@ -96,24 +60,88 @@ export const AppProvider = ({ children }) => {
                 console.error(error);
             });
     }
-    const signOut = () =>{
+    const signOut = () => {
         auth()
-  .signOut()
-  .then(() => console.log('User signed out!'));
+            .signOut()
+            .then(() => console.log('User signed out!'));
     }
 
-    // Handle user state changes
+
+
     function onAuthStateChanged(user) {
         setUser(user);
         if (initializing) setInitializing(false);
     }
 
+    // get movie functions
+    const getTrendingMovies = async () => {
+        const data = await fetchTrendingMovies()
+        setTrendingMovies(data) 
+       // console.log('ajaj')
+       // console.log(data);
+    }
+    const getTopMovies = async () => {
+        const data = await fetchTopMovies()
+        setTopMovies(data) 
+       // console.log('ajaj')
+       // console.log(data);
+    }
+    const getDiscoverMovies = async () => {
+        const data = await fetchDiscoverMovies()
+        setDiscoverMovies(data) 
+       // console.log('aSASASsasSSASAS')
+       // console.log(data[0]);
+    }
+    const getTypeMovies = async () => {
+        const data = await fetchTypeMovies()
+        setTypeMovies(data) 
+        
+        //console.log(data);
+    }
+
+    // dynamic get movie
+    const getSearchMovies = async () => {
+        const data = await fetchSearchMovies(searchTerm)
+        setResultSearch(data) 
+        
+        //console.log(data);
+    }
+    const getVideoSelectedMovies = async () => {
+        if(selectedMovie !== ''){
+        const data = await fetchVideoSelectedMovies(selectedMovie.id)
+      
+        setVideoSelectedMovie(data[0].key)
+       //console.log(data[0].key)
+        }
+    }
+
     useEffect(() => {
+        // movies function calls
+        getTrendingMovies()
+        getTopMovies()
+        getDiscoverMovies()
+      
+
+        // auth function calls
         const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
         return subscriber; // unsubscribe on unmount
     }, []);
+
+
+    // selecting a card movie
+
+    useEffect(() => {
+            getVideoSelectedMovies()
+    }, [selectedMovie]);
+
+    // when searching a movie 
+
+    useEffect(() => {
+        // movies function calls
+        getSearchMovies()
+      }, [searchTerm]);
     return (
-        <AppContext.Provider value={{ initializing, user, signUp, signOut , login }} >
+        <AppContext.Provider value={{ initializing, user, trendingMovies, topMovies,discoverMovies,searchTerm,resultSearch,selectedMovie,videoSelectedMovie, signUp, signOut, login,getSearchMovies ,setResultSearch,setSelectedMovie, setSearchTerm ,getVideoSelectedMovies, setVideoSelectedMovie}} >
             {children}
         </AppContext.Provider>
     )

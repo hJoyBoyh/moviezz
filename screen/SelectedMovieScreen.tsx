@@ -59,26 +59,48 @@ const DATA = [
 import auth from '@react-native-firebase/auth';
 import { AppContext } from '../context/AppContext';
 import { API_BASE_URL_IMG } from '../moviezz-api/manager';
+import { Video } from '../components/Video';
+import { Title } from '../components/Title';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
-export function HomeScreen({ navigation }) {
- const {trendingMovies,topMovies,discoverMovies} = useContext(AppContext)
+export function SelectedMovieScreen({ navigation }) {
+ const {trendingMovies,topMovies,discoverMovies ,videoSelectedMovie, selectedMovie} = useContext(AppContext)
 
  const suggestionMovie = discoverMovies[0]
 
-
+console.log(selectedMovie)
 
 
   
   return (
 
     <SafeAreaView style={styles.container}>
-      <ScrollView>
-<SuggestionMovieCard source={{uri:`${API_BASE_URL_IMG}${suggestionMovie.poster_path}`}} title={suggestionMovie.original_title} year={suggestionMovie.release_date.split('-')[0]}></SuggestionMovieCard>
-<MovieListCarousel data={trendingMovies} firstWord='Moviezz' restWord=' for you' handleSeeAll={()=> console.log('haha')} navigation={navigation}></MovieListCarousel>
-<MovieListCarousel data={topMovies} firstWord='Top' restWord=' moviezz 250' handleSeeAll={()=> console.log('haha')} navigation={navigation}></MovieListCarousel>
 
-</ScrollView>
+    <View>
+        <Video videoKey={videoSelectedMovie}></Video>
+        <SubTitle firstWord={selectedMovie.title} hideSeeAll={true}></SubTitle>
+        {/* {selectedMovie.genre_ids.map((genre) =>{
+           
+           typeMovies.map((type) =>{
+            if(type.id == genre){
+                return <Text>{type.id}</Text>
+            }
+           })
+       
+        })} */}
+<Text style={styles.text}>Synopsis: {selectedMovie.overview}</Text>
+<Text style={styles.text}>Rating: {selectedMovie.vote_average}</Text>
+
+<Text style={styles.text}>Rating: {selectedMovie.release_date}</Text>
+
+<TouchableOpacity style={styles.btn} onPress={()=>{navigation.goBack()}}>
+    <Text  style={styles.btnText}>Quit</Text>
+</TouchableOpacity>
+
+
+
+    </View>
     </SafeAreaView>
   )
 }
@@ -109,11 +131,28 @@ const styles = StyleSheet.create({
     gap: 2,
   },
   text: {
-    color: '#ffffff'
+    color: '#ffffff',
+    fontSize:18,
+    paddingLeft:12,
+    paddingBottom:10
   },
   textNavigation: {
     color: '#d1c901'
   },
+  btn:{
+    height:50,
+    width:100,
+    marginLeft:12,
+    paddingBottom:10,
+    backgroundColor: 'gold',
+    display:'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  btnText:{
+    color:'black',
+    fontSize:18,
+  }
 
 
 });

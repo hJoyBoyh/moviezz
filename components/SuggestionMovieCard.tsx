@@ -15,6 +15,7 @@ import { SafeAreaView } from 'react-native';
 
 // props: source(img)- title(title of the movie)- year(year of the realest of the movie)
 export function SuggestionMovieCard(props) {
+  
   return (
     <SafeAreaView style={styles.safeAreaView}>
             <SubTitle firstWord='Suggestion' restWord=' of the day' hideSeeAll={true}></SubTitle>
@@ -48,7 +49,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   image: {
-    height: 452,
+    height: 500,
     width: 352,
     borderRadius: 10,
     marginTop: 20

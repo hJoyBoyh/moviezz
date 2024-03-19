@@ -24,7 +24,7 @@ export function SubTitle(props){
         
         
           <View>
-        <Text style={ props.hideSeeAll ?  styles.seeAll:styles.hideSeeAll} onPress={props.onPress}>See all</Text>
+        <Text style={ props.hideSeeAll ?  styles.hideSeeAll: styles.seeAll} onPress={props.onPress}>See all</Text>
         </View>
         
        

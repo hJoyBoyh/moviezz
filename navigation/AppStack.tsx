@@ -20,6 +20,7 @@ import { Image, StyleSheet, Text, TouchableOpacity } from 'react-native'
 import { DrawerActions } from '@react-navigation/native';
 import { LogoMini } from '../components/LogoMini';
 import { IconSearch } from '../components/IconSearch';
+import { SelectedMovieScreen } from '../screen/SelectedMovieScreen';
 
 const Drawer = createDrawerNavigator();
 
@@ -38,6 +39,7 @@ export function AppStack({}) {
             },
             headerTitleAlign: 'center'
           }}>
+        
             <Drawer.Screen
     name="Home"
     component={HomeScreen}
@@ -62,6 +64,7 @@ export function AppStack({}) {
     ),
     })}
   />
+       
             
          
             <Drawer.Screen name="Favorite" component={FavoriteScreen} 
@@ -124,6 +127,16 @@ export function AppStack({}) {
                  drawerIcon: () => null,
             }} component={ChangePasswordScreen} />
             {/* <Stack.Screen name="ChangeEmail" component={ChangeEmailScreen}/> */}
+            <Drawer.Screen
+    name="SelectedMovie"
+    component={SelectedMovieScreen}
+    options={{
+      headerShown: false,
+       drawerLabel: () => null,
+       title: undefined,
+       drawerIcon: () => null,
+  }}
+  />
 
 
         </Drawer.Navigator>

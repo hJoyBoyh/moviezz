@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-no-undef */
 /* eslint-disable prettier/prettier */
 /* eslint-disable react/self-closing-comp */
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 
 import {
   
@@ -16,6 +16,9 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { SubTitle } from './SubTitle';
 // import Carousel from 'react-native-snap-carousel'
 import { CardMovie } from './CardMovie';
+import { API_BASE_URL_IMG } from '../moviezz-api/manager';
+import { AppContext } from '../context/AppContext';
+
 
 type ItemProps = {title: string};
 
@@ -25,7 +28,19 @@ const Item = ({title}: ItemProps) => (
   </View>
 );
 
-export function MovieListCarousel({data, firstWord, restWord, handleSeeAll}){
+export function MovieListCarousel({data, firstWord, restWord, handleSeeAll, navigation}){
+  const {videoSelectedMovie, setVideoSelectedMovie,setSelectedMovie,selectedMovie,getVideoSelectedMovies} = useContext(AppContext)
+
+  const handleCardRedirection =(item)=>{
+    
+    setSelectedMovie(item)
+    getVideoSelectedMovies()
+    navigation.navigate('SelectedMovie')
+   console.log(selectedMovie.id)
+    console.log(videoSelectedMovie)
+  }
+  
+  
   
     return(
 
@@ -33,13 +48,13 @@ export function MovieListCarousel({data, firstWord, restWord, handleSeeAll}){
       showsVerticalScrollIndicator={false}
       contentContainerStyle={styles.scrollViewContainer}>
         <View >
-            <SubTitle firstWord={firstWord} restWord={restWord} hideSeeAll={true} onPress={handleSeeAll}></SubTitle>
+            <SubTitle firstWord={firstWord} restWord={restWord} hideSeeAll={false} onPress={handleSeeAll}></SubTitle>
            <FlatList
-            data={data.slice(0, 7)}
+            data={data.slice(0, 21)}
             horizontal
             snapToInterval={300}
             showsHorizontalScrollIndicator={false}
-            renderItem={({item}) => <CardMovie source={require('../assets/CardImg.png')} title="Movie" year='2024' />}
+            renderItem={({item}) => <CardMovie source={{ uri: `${API_BASE_URL_IMG}${item.poster_path}` }}  year={item.release_date.split('-')[0]} onPress={()=>{handleCardRedirection(item)}} />}
             keyExtractor={item => item.id}
            />
 

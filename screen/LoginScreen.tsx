@@ -15,7 +15,7 @@ import { Button1 } from '../components/Button1';
 import { Form } from '../components/Form';
 import { InputText } from '../components/InputText';
 import { AppContext } from '../context/AppContext';
-import { getTrendingMovie } from '../moviezz-backend/model';
+import { getTrendingMovie} from '../moviezz-api/model';
 
 export function LoginScreen({ navigation }) {
   const { login} = useContext(AppContext)
@@ -34,7 +34,7 @@ export function LoginScreen({ navigation }) {
 
 
           <Form
-            input01={<InputText placeholder='Email' value={email} onChangeText={email=> setEmail(email)} /*hideRedirectionIcon={true}*/ onPress={()=> console.log(getTrendingMovie())}/> }
+            input01={<InputText placeholder='Email' value={email} onChangeText={email=> setEmail(email)} hideRedirectionIcon={true}/>}
             input02={<InputText placeholder='Password' secureTextEntry={true} value={password} onChangeText={password=> setPassword(password)} hideRedirectionIcon={true}/>}
           />
 
