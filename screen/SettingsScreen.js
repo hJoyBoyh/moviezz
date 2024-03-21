@@ -1,6 +1,6 @@
 /* eslint-disable react/self-closing-comp */
 /* eslint-disable prettier/prettier */
-import React from 'react';
+import React,{useContext} from 'react';
 
 import {
 	Image,
@@ -20,14 +20,20 @@ import { SubTitle } from '../components/SubTitle';
 import { Title } from '../components/Title';
 import { Form } from '../components/Form';
 import { InputText } from '../components/InputText';
+import { AppContext } from '../context/AppContext';
+
 
 export function SettingsScreen({ navigation }) {
+	const { user} = useContext(AppContext)
+
+	let username = user.email.split('@')[0]
+	let userEmail = user.email
 	return (
 		<SafeAreaView style={styles.container}>
-			<SubTitle firstWord='Settings' hideSeeAll={false}></SubTitle>
-			<Title title='Hi, John Doe' />
+			<SubTitle firstWord='Settings' hideSeeAll={true}></SubTitle>
+			<Title title={`Hi,${username}`} />
 			<Form
-				input01={<InputText placeholder='Email - Kenny@gmail.com' editable={false} onPress={() => navigation.navigate('ChangeEmail')} />}
+				input01={<InputText placeholder={`Email - ${userEmail}`} editable={false} onPress={() => navigation.navigate('ChangeEmail')} />}
 				input02={<InputText placeholder='Password - ' editable={false} onPress={() => navigation.navigate('ChangePassword')} />}
 			/>
 		</SafeAreaView>

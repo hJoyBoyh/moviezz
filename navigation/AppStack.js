@@ -80,18 +80,56 @@ export function AppStack({ }) {
 					),
 				})}
 			/>
-			<Drawer.Screen name="Cinema" component={CinemaNearMeScreen} options={{
+			<Drawer.Screen name="Cinema" component={CinemaNearMeScreen}
+			options={({ navigation }) => ({
+				headerRight: () => (
+					<TouchableOpacity
+						style={styles.buttonStyle}
+						onPress={() => navigation.navigate('Search')}>
+						<Ionicons name="search-outline" size={22} color='white' />
+					</TouchableOpacity>
+				),
+				headerTitle: () => <LogoMini />,
+				drawerActiveBackgroundColor: 'gold',
+				drawerActiveTintColor: '#000',
+				drawerInactiveTintColor: 'white',
+				drawerLabelStyle: {
+					fontFamily: 'Roboto-Medium',
+					fontSize: 15,
+				},
+
 				drawerIcon: ({ color }) => (
 					<MaterialCommunityIcons name="movie-outline" size={22} color={color} />
 				),
-				title: 'Cinema near me'
+			})}
+			
+			
+		 />
+			<Drawer.Screen name="Settings" component={SettingsScreen}
+			options={({ navigation }) => ({
+				headerRight: () => (
+					<TouchableOpacity
+						style={styles.buttonStyle}
+						onPress={() => navigation.navigate('Search')}>
+						<Ionicons name="search-outline" size={22} color='white' />
+					</TouchableOpacity>
+				),
+				headerTitle: () => <LogoMini />,
+				drawerActiveBackgroundColor: 'gold',
+				drawerActiveTintColor: '#000',
+				drawerInactiveTintColor: 'white',
+				drawerLabelStyle: {
+					fontFamily: 'Roboto-Medium',
+					fontSize: 15,
+				},
 
-			}} />
-			<Drawer.Screen name="Settings" component={SettingsScreen} options={{
 				drawerIcon: ({ color }) => (
 					<Ionicons name="settings-outline" size={22} color={color} />
 				),
-			}} />
+			})}
+			
+			
+			 />
 
 			{/* not show the search menu */}
 			<Drawer.Screen name="Search" options={{

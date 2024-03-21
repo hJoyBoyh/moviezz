@@ -19,32 +19,6 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 import { SubTitle } from '../components/SubTitle';
 import { FavoriteMovieCardList } from '../components/FavoriteMovieCardList';
 
-const DATA = [
-	{
-		id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-	},
-	{
-		id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-	},
-	{
-		id: '58694a0f-3da1-471f-bd96-145571e29d72',
-	},
-	{
-		id: '586s94a0f-3da1-471f-bd96-145571e29d72',
-	},
-	{
-		id: '58694a0fa-3da1-471f-bd96-145571e29d72',
-	},
-	{
-		id: '5869A4a0fa-3da1-471f-bd96-145571e29d72',
-	},
-	{
-		id: '58694a0faQW-3da1-471f-bd96-145571e29d72',
-	},
-	{
-		id: '58694a0fa-3da1SFD-471f-bd96-145571e29d72',
-	},
-];
 
 export function FavoriteScreen({ navigation }) {
 	return (
