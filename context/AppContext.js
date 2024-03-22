@@ -4,7 +4,7 @@ import auth from '@react-native-firebase/auth';
 import signInWithEmailAndPassword from '@react-native-firebase/auth';
 import { fetchDiscoverMovies, fetchSearchMovies, fetchTopMovies, fetchTrendingMovies, fetchTypeMovies, fetchVideoSelectedMovies } from "../moviezz-api/model";
 import { Alert } from "react-native";
-import PushNotification from 'react-native-push-notification';
+import Snackbar from 'react-native-snackbar';
 
 export const AppContext = createContext();
 
@@ -99,9 +99,11 @@ export const AppProvider = ({ children }) => {
 		const updatedFavorites = [...favorites, movie];
 		await AsyncStorage.setItem('favorites', JSON.stringify(updatedFavorites));
 
-		PushNotification.localNotification({
-			title: 'Favorites Updated',
-			message: 'Your favorites have been updated!',
+		Snackbar.show({
+			text: 'Favourites modified',
+			duration: Snackbar.LENGTH_SHORT,
+			backgroundColor: '#fff',
+			textColor: 'black',
 		});
 
 		setFavorites(updatedFavorites);
@@ -111,9 +113,11 @@ export const AppProvider = ({ children }) => {
 		const updatedFavorites = favorites.filter(movie => movie.id !== movieId);
 		await AsyncStorage.setItem('favorites', JSON.stringify(updatedFavorites));
 
-		PushNotification.localNotification({
-			title: 'Favorites Updated',
-			message: 'Your favorites have been updated!',
+		Snackbar.show({
+			text: 'Favourites modified',
+			duration: Snackbar.LENGTH_SHORT,
+			backgroundColor: '#fff',
+			textColor: 'black',
 		});
 
 		setFavorites(updatedFavorites);
