@@ -14,87 +14,76 @@ export const AppProvider = ({ children }) => {
 	const [initializing, setInitializing] = useState(true);
 	const [user, setUser] = useState();
 
-
 	// movies variables----------------
 	const [trendingMovies, setTrendingMovies] = useState([]);
 	const [topMovies, setTopMovies] = useState([]);
 	const [discoverMovies, setDiscoverMovies] = useState([]);
 	const [typeMovies, setTypeMovies] = useState([]);
-
 	const [searchTerm, setSearchTerm] = useState('');
 	const [resultSearch, setResultSearch] = useState([]);
-
 	const [selectedMovie, setSelectedMovie] = useState('')
 	const [videoSelectedMovie, setVideoSelectedMovie] = useState('')
-
-
+	const [favorites, setFavorites] = useState([]);
 
 	// auth functions----------------------
 	function isEmpty(value) {
 		return (value == null || (typeof value === "string" && value.trim().length === 0));
-	  }
+	}
 
 	const login = (email, password) => {
-		 
-			if(isEmpty(email) === true){
-				Alert.alert('The email is empty. Enter your email')
-			}
-			else if(isEmpty(password) === true){
-				Alert.alert('The password is empty. Enter your email')
-			}
-			else if(isEmpty(password) === false && isEmpty(email) === false){
 
-			
-		  
-
-
-		auth()
-			.signInWithEmailAndPassword(email, password)
-			.then(() => {
-				console.log('User & login!');
-			})
-			.catch(error => {
-				if(error.code === "auth/invalid-email"){
-				Alert.alert("The email is invalid. Please try again")
-				}
-				if(error.code === "auth/invalid-credential"){
-					Alert.alert("The email or the password is invalid. Please try again")
-				}
-				if(error.code === "auth/too-many-requests"){
-					Alert.alert
-					("We have blocked all requests from this device due to unusual activity. Reload the app")
-				}
-			
-			});
+		if (isEmpty(email) === true) {
+			Alert.alert('The email is empty. Enter your email')
+		}
+		else if (isEmpty(password) === true) {
+			Alert.alert('The password is empty. Enter your email')
+		}
+		else if (isEmpty(password) === false && isEmpty(email) === false) {
+			auth()
+				.signInWithEmailAndPassword(email, password)
+				.then(() => {
+					console.log('User & login!');
+				})
+				.catch(error => {
+					if (error.code === "auth/invalid-email") {
+						Alert.alert("The email is invalid. Please try again")
+					}
+					if (error.code === "auth/invalid-credential") {
+						Alert.alert("The email or the password is invalid. Please try again")
+					}
+					if (error.code === "auth/too-many-requests") {
+						Alert.alert
+							("We have blocked all requests from this device due to unusual activity. Reload the app")
+					}
+				});
 		}
 	}
 
 	const signUp = (email, password) => {
-
-		if(isEmpty(email) === true){
+		if (isEmpty(email) === true) {
 			Alert.alert('The email is empty. Enter your email')
 		}
-		else if(isEmpty(password) === true){
+		else if (isEmpty(password) === true) {
 			Alert.alert('The password is empty. Enter your email')
 		}
-		else if(isEmpty(password) === false && isEmpty(email) === false){
+		else if (isEmpty(password) === false && isEmpty(email) === false) {
 
-		auth()
-			.createUserWithEmailAndPassword(email, password)
-			.then(() => {
-				console.log('User account created & signed in!');
-			})
-			.catch(error => {
-				if (error.code === 'auth/email-already-in-use') {
-					Alert.alert('That email address is already in use!');
-				}
-				if (error.code === 'auth/invalid-email') {
-					Alert.alert('That email address is invalid!');
-				}
-				;
-			});
+			auth()
+				.createUserWithEmailAndPassword(email, password)
+				.then(() => {
+					console.log('User account created & signed in!');
+				})
+				.catch(error => {
+					if (error.code === 'auth/email-already-in-use') {
+						Alert.alert('That email address is already in use!');
+					}
+					if (error.code === 'auth/invalid-email') {
+						Alert.alert('That email address is invalid!');
+					}
+					;
+				});
+		}
 	}
-}
 	const signOut = () => {
 		auth()
 			.signOut()
@@ -107,10 +96,33 @@ export const AppProvider = ({ children }) => {
 	}
 
 	// movies functions----------------------
+	const addToFavorites = async (movie) => {
+		const updatedFavorites = [...favorites, movie];
+		await AsyncStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+		setFavorites(updatedFavorites);
+	};
+
+	const removeFromFavorites = async (movieId) => {
+		const updatedFavorites = favorites.filter(movie => movie.id !== movieId);
+		await AsyncStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+		setFavorites(updatedFavorites);
+	};
+
+	const loadFavorites = async () => {
+		const favoritesData = await AsyncStorage.getItem('favorites');
+		if (favoritesData) {
+			setFavorites(JSON.parse(favoritesData));
+		}
+	};
+
+	useEffect(() => {
+		loadFavorites();
+	}, []);
+
 	const getTrendingMovies = async () => {
 		const data = await fetchTrendingMovies()
 		setTrendingMovies(data)
-	
+
 	}
 
 	const getTopMovies = async () => {
@@ -165,8 +177,32 @@ export const AppProvider = ({ children }) => {
 	}, [searchTerm]);
 
 	return (
-		<AppContext.Provider value={{ initializing, user, trendingMovies, topMovies, discoverMovies, searchTerm, resultSearch, selectedMovie, videoSelectedMovie, signUp, signOut, login, getSearchMovies, setResultSearch, setSelectedMovie, setSearchTerm, getVideoSelectedMovies, setVideoSelectedMovie }} >
+		<AppContext.Provider
+			value={{
+				favorites,
+				initializing,
+				user,
+				trendingMovies,
+				topMovies,
+				discoverMovies,
+				searchTerm,
+				resultSearch,
+				selectedMovie,
+				videoSelectedMovie,
+				addToFavorites,
+				removeFromFavorites,
+				signUp,
+				signOut,
+				login,
+				getSearchMovies,
+				setResultSearch,
+				setSelectedMovie,
+				setSearchTerm,
+				getVideoSelectedMovies,
+				setVideoSelectedMovie
+			}}
+		>
 			{children}
 		</AppContext.Provider>
-	)
+	);
 }

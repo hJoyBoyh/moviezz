@@ -1,32 +1,35 @@
 /* eslint-disable react/jsx-no-undef */
 /* eslint-disable prettier/prettier */
 /* eslint-disable react/self-closing-comp */
-import React ,{useContext}from 'react';
-
-import {
-	Image,
-	StyleSheet,
-	Text,
-	View,
-} from 'react-native';
-import { SubTitle } from './SubTitle';
+import React, { useContext, useState } from 'react';
+import { Image, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { SafeAreaView } from 'react-native';
 import { AppContext } from '../context/AppContext';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 
-// props: source(img)- title(title of the movie)- year(year of the realest of the movie)
 export function SuggestionMovieCard(props) {
-
-	const { videoSelectedMovie, setVideoSelectedMovie, setSelectedMovie, selectedMovie, getVideoSelectedMovies } = useContext(AppContext);
+	const { videoSelectedMovie, setVideoSelectedMovie, setSelectedMovie, selectedMovie, getVideoSelectedMovies, addToFavorites, removeFromFavorites, favorites } = useContext(AppContext);
+	const [isFavorite, setIsFavorite] = useState(false);
 
 	const handleCardRedirection = () => {
 		setSelectedMovie(props.discoverMovie);
 		getVideoSelectedMovies();
 		props.navigation.navigate('SelectedMovie');
-		console.log(selectedMovie.id);
-		console.log(videoSelectedMovie);
 	};
+
+	const toggleFavorite = () => {
+		if (isFavorite) {
+			removeFromFavorites(props.discoverMovie.id);
+		} else {
+			addToFavorites(props.discoverMovie);
+		}
+		setIsFavorite(!isFavorite);
+	};
+
+	useState(() => {
+		const isFav = favorites.find(movie => movie.id === props.discoverMovie.id);
+		setIsFavorite(!!isFav);
+	}, [favorites]);
 
 	return (
 		<SafeAreaView style={styles.safeAreaView}>
@@ -40,11 +43,13 @@ export function SuggestionMovieCard(props) {
 				<Text style={styles.text}>{props.year}</Text>
 
 				<View style={styles.suggestionBox}>
-					<TouchableOpacity onPress={()=>handleCardRedirection()}>
-					<Text style={styles.suggestionBoxText}>Info</Text>
+					<TouchableOpacity onPress={() => handleCardRedirection()}>
+						<Text style={styles.suggestionBoxText}>Info</Text>
 					</TouchableOpacity>
-					
-					<Ionicons name='heart-outline' color='black' size={25} style={styles.heart} />
+
+					<TouchableOpacity onPress={toggleFavorite}>
+						<Ionicons name={isFavorite ? 'heart' : 'heart-outline'} color='black' size={25} style={styles.heart} />
+					</TouchableOpacity>
 				</View>
 
 			</View>

@@ -1,29 +1,14 @@
-/* eslint-disable react/self-closing-comp */
-/* eslint-disable prettier/prettier */
-import React from 'react';
-
-import {
-	Image,
-	KeyboardAvoidingView,
-	Pressable,
-	SafeAreaView,
-	ScrollView,
-	StyleSheet,
-	Text,
-	TextInput,
-	View,
-} from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { CardMovie } from '../components/CardMovie';
-import Icon from 'react-native-vector-icons/FontAwesome'
-import { SubTitle } from '../components/SubTitle';
+import React, { useContext } from 'react';
+import { SafeAreaView, StyleSheet } from 'react-native';
+import { AppContext } from '../context/AppContext';
 import { FavoriteMovieCardList } from '../components/FavoriteMovieCardList';
 
-
 export function FavoriteScreen({ navigation }) {
+	const { favorites } = useContext(AppContext);
+
 	return (
 		<SafeAreaView style={styles.container}>
-			<FavoriteMovieCardList data={DATA} firstWord='My Favorite' restWord='' handleSeeAll={() => { }} />
+			<FavoriteMovieCardList data={favorites} firstWord='My Favorite' restWord='' handleSeeAll={() => { }} />
 		</SafeAreaView>
 	)
 }

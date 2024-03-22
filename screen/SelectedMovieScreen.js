@@ -1,41 +1,28 @@
 /* eslint-disable react/self-closing-comp */
 /* eslint-disable prettier/prettier */
-import React, { useContext, useState } from 'react';
-
+import React, { useContext } from 'react';
 import {
-	Image,
-	KeyboardAvoidingView,
-	Pressable,
 	SafeAreaView,
-	ScrollView,
 	StyleSheet,
 	Text,
-	TextInput,
 	View,
 } from 'react-native';
 
 import { SubTitle } from '../components/SubTitle';
-
-
 import { AppContext } from '../context/AppContext';
-
 import { Video } from '../components/Video';
-
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-
 export function SelectedMovieScreen({ navigation }) {
-	const {videoSelectedMovie, selectedMovie } = useContext(AppContext)
-	
+	const { videoSelectedMovie, selectedMovie } = useContext(AppContext)
+
 	console.log(selectedMovie)
 
 	return (
-
 		<SafeAreaView style={styles.container}>
 			<View>
-				
 				<Video videoKey={videoSelectedMovie}></Video>
-				<SubTitle firstWord={selectedMovie.title}  hideSeeAll={true}></SubTitle>
+				<SubTitle firstWord={selectedMovie.title} hideSeeAll={true}></SubTitle>
 				<Text style={styles.text}>Synopsis: {selectedMovie.overview}</Text>
 				<Text style={styles.text}>Rating: {selectedMovie.vote_average}</Text>
 				<Text style={styles.text}>Release date: {selectedMovie.release_date}</Text>
