@@ -105,6 +105,8 @@ export const AppProvider = ({ children }) => {
 	const removeFromFavorites = async (movieId) => {
 		const updatedFavorites = favorites.filter(movie => movie.id !== movieId);
 		await AsyncStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+		console.log('Removed favorites : ' + movieId)
+		console.log(updatedFavorites.length)
 		setFavorites(updatedFavorites);
 	};
 

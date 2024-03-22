@@ -1,33 +1,32 @@
-import React from 'react';
-import { FlatList, Image, StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { FlatList, StyleSheet, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SubTitle } from './SubTitle';
 import { FavoriteMovieCard } from './FavoriteMovieCard';
+import { API_BASE_URL_IMG } from '../moviezz-api/manager';
 
-const Item = ({ title }) => (
-	<View>
-		<Text>{title}</Text>
-	</View>
-);
 
 export function FavoriteMovieCardList({ data, firstWord, restWord, handleSeeAll }) {
+	const [isFavorite, setIsFavorite] = useState(true);
+
 	return (
 		<ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollViewContainer}>
 			<View>
-				<SubTitle firstWord={firstWord} restWord={restWord} hideSeeAll={false} onPress={handleSeeAll}></SubTitle>
+				<SubTitle firstWord={firstWord} restWord={restWord} hideSeeAll={false} onPress={handleSeeAll} />
 				<FlatList
 					data={data}
-					snapToInterval={100}
 					showsHorizontalScrollIndicator={false}
 					renderItem={({ item }) => (
 						<FavoriteMovieCard
-							source={require('../assets/CardImg.png')}
-							title="Movie"
-							year="2024"
-							description="loremloremloremvloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremlorem"
+							source={{ uri: `${API_BASE_URL_IMG}${item.poster_path}` }}
+							title={item.title}
+							year={item.release_date}
+							description={item.overview}
+							id={item.id}
+							setIsFavorite={setIsFavorite}
 						/>
 					)}
-					keyExtractor={(item) => item.id}
+					keyExtractor={(item) => item.id.toString()}
 				/>
 			</View>
 		</ScrollView>
@@ -38,17 +37,5 @@ const styles = StyleSheet.create({
 	scrollViewContainer: {
 		marginTop: 20,
 		paddingBottom: 10,
-	},
-	container: {
-		display: 'flex',
-		justifyContent: 'center',
-		alignItems: 'center',
-		flex: 1,
-	},
-	text: {
-		color: 'white',
-		textAlign: 'center',
-		width: 300,
-		fontSize: 16,
 	},
 });

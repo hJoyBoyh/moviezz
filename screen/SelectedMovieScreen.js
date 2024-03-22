@@ -1,22 +1,27 @@
-/* eslint-disable react/self-closing-comp */
-/* eslint-disable prettier/prettier */
-import React, { useContext } from 'react';
-import {
-	SafeAreaView,
-	StyleSheet,
-	Text,
-	View,
-} from 'react-native';
-
+import React, { useContext, useState } from 'react';
+import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SubTitle } from '../components/SubTitle';
 import { AppContext } from '../context/AppContext';
 import { Video } from '../components/Video';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export function SelectedMovieScreen({ navigation }) {
-	const { videoSelectedMovie, selectedMovie } = useContext(AppContext)
+	const { videoSelectedMovie, selectedMovie, addToFavorites, removeFromFavorites, favorites } = useContext(AppContext);
+	const [isFavorite, setIsFavorite] = useState(false);
 
-	console.log(selectedMovie)
+	const toggleFavorite = () => {
+		if (isFavorite) {
+			removeFromFavorites(selectedMovie.id);
+		} else {
+			addToFavorites(selectedMovie);
+		}
+		setIsFavorite(!isFavorite);
+	};
+
+	useState(() => {
+		const isFav = favorites.find(movie => movie.id === selectedMovie.id);
+		setIsFavorite(!!isFav);
+	}, [favorites]);
 
 	return (
 		<SafeAreaView style={styles.container}>
@@ -26,8 +31,11 @@ export function SelectedMovieScreen({ navigation }) {
 				<Text style={styles.text}>Synopsis: {selectedMovie.overview}</Text>
 				<Text style={styles.text}>Rating: {selectedMovie.vote_average}</Text>
 				<Text style={styles.text}>Release date: {selectedMovie.release_date}</Text>
-				<TouchableOpacity style={styles.btn} onPress={() => { navigation.goBack() }}>
+				<TouchableOpacity style={styles.btn} onPress={() => navigation.goBack()}>
 					<Text style={styles.btnText}>Quit</Text>
+				</TouchableOpacity>
+				<TouchableOpacity style={styles.favoriteBtn} onPress={toggleFavorite}>
+					<Ionicons name={isFavorite ? 'heart' : 'heart-outline'} color='white' size={25} />
 				</TouchableOpacity>
 			</View>
 		</SafeAreaView>
@@ -42,7 +50,6 @@ const styles = StyleSheet.create({
 		gap: 10,
 		backgroundColor: '#292928'
 	},
-
 	text: {
 		color: '#ffffff',
 		fontSize: 18,
@@ -62,5 +69,14 @@ const styles = StyleSheet.create({
 	btnText: {
 		color: 'black',
 		fontSize: 18,
+	},
+	favoriteBtn: {
+		height: 50,
+		width: 100,
+		marginLeft: 12,
+		paddingBottom: 10,
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'center',
 	}
 });

@@ -1,5 +1,5 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { Image, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { AppContext } from '../context/AppContext';
 
@@ -12,15 +12,13 @@ export function FavoriteMovieCard(props) {
 		setIsFavorite(!!isFav);
 	}, [favorites]);
 
-	const toggleFavorite = () => {
-		if (isFavorite) {
-			removeFromFavorites(props.id);
-		}
-		setIsFavorite(!isFavorite);
+	const removeFavorite = () => {
+		removeFromFavorites(props.id);
+		setIsFavorite(false);
 	};
 
 	return (
-		<TouchableOpacity onPress={toggleFavorite}>
+		<TouchableOpacity onPress={removeFavorite}>
 			<View style={styles.card}>
 				<View>
 					<Image source={props.source} style={styles.image} />

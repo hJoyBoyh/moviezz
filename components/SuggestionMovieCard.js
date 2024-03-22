@@ -5,6 +5,7 @@ import React, { useContext, useState } from 'react';
 import { Image, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { SafeAreaView } from 'react-native';
+import { SubTitle } from './SubTitle';
 import { AppContext } from '../context/AppContext';
 
 export function SuggestionMovieCard(props) {
