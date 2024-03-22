@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
-import { PermissionsAndroid, Platform } from 'react-native';
-import Geolocation from 'react-native-geolocation-service';
+import React, { useEffect, useState } from 'react';
+import { PermissionsAndroid, Platform, StyleSheet, SafeAreaView, View, Text } from 'react-native';
+import Geolocation from '@react-native-community/geolocation';
 
 export function CinemaNearMeScreen({ navigation }) {
 	const [cinemas, setCinemas] = useState([]);
@@ -30,15 +30,9 @@ export function CinemaNearMeScreen({ navigation }) {
 					position => {
 						const { latitude, longitude } = position.coords;
 						const geolocation = `${latitude};${longitude}`;
+						console.log(geolocation);
 
-						const apiKey = 'dDsazJJnj36IntF2ELV6S7FSm4gQuIDr6rJVK0Nn';
-						const client = 'SCHO_61';
-						const authorization = 'Basic U0NIT182MTo4VnNrVmpNUHZ3ME8=';
-						const territory = 'CA';
-						const apiVersion = '200';
-						const deviceDatetime = new Date().toISOString();
-
-						fetchCinemas(apiKey, client, authorization, territory, apiVersion, geolocation, deviceDatetime);
+						fetchCinemas(geolocation);
 					},
 					error => {
 						setError(error);
@@ -53,10 +47,16 @@ export function CinemaNearMeScreen({ navigation }) {
 		fetchData();
 	}, []);
 
-	const fetchCinemas = async (apiKey, client, authorization, territory, apiVersion, geolocation, deviceDatetime) => {
+	const fetchCinemas = async (geolocation) => {
 		try {
+			const apiKey = 'dDsazJJnj36IntF2ELV6S7FSm4gQuIDr6rJVK0Nn';
+			const client = 'SCHO_61';
+			const authorization = 'Basic U0NIT182MTo4VnNrVmpNUHZ3ME8=';
+			const territory = 'CA';
+			const apiVersion = '200';
+
 			const response = await fetch(
-				`https://api-gate2.movieglu.com/cinemasNearby/?n=2`,
+				`https://api-gate2.movieglu.com/cinemasNearby/?n=2&geolocation=${geolocation}`,
 				{
 					headers: {
 						'x-api-key': apiKey,
@@ -64,13 +64,12 @@ export function CinemaNearMeScreen({ navigation }) {
 						'authorization': authorization,
 						'territory': territory,
 						'api-version': apiVersion,
-						'geolocation': geolocation,
-						'device-datetime': deviceDatetime,
 					},
 				}
 			);
 
 			const data = await response.json();
+			console.log(data);
 			setCinemas(data);
 		} catch (error) {
 			setError(error);
@@ -85,6 +84,7 @@ export function CinemaNearMeScreen({ navigation }) {
 				</View>
 			) : (
 				<View style={styles.content}>
+					{/* Display cinemas here */}
 					{cinemas.map(cinema => (
 						<Text key={cinema.id}>{cinema.name}</Text>
 					))}
