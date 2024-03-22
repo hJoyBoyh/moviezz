@@ -3,24 +3,24 @@
 import React, { useContext, useState } from 'react';
 
 import {
-	Image,
-	KeyboardAvoidingView,
-	Pressable,
 	SafeAreaView,
 	ScrollView,
 	StyleSheet,
 	Text,
-	TextInput,
 	View,
 } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+
 import { CardMovie } from '../components/CardMovie';
-import Icon from 'react-native-vector-icons/FontAwesome'
+
 import { NoResultSearch } from '../components/NoResultSearch';
 import SearchBarComponent from '../components/SearchBarComponent';
 import { AppContext } from '../context/AppContext';
-import { API_BASE_URL, API_BASE_URL_IMG } from '../moviezz-api/manager';
-import { fetchSearchMovies } from '../moviezz-api/model';
+import {  API_BASE_URL_IMG } from '../moviezz-api/manager';
+
+
+import { LogBox } from 'react-native';
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs();//Ignore all log notifications
 
 export function SearchScreen({ navigation }) {
 	const { resultSearch, setSelectedMovie, getVideoSelectedMovies, selectedMovie, videoSelectedMovie } = useContext(AppContext)
@@ -48,19 +48,6 @@ export function SearchScreen({ navigation }) {
 
 					})}
 
-					{/* <CardMovie source={require('../assets/CardImg.png')} title="Aquaman" year='2024'/>
-        <CardMovie source={require('../assets/CardImg.png')} title="Aquaman" year='2024'/>
-        <CardMovie source={require('../assets/CardImg.png')} title="Aquaman" year='2024'/>
-        <CardMovie source={require('../assets/CardImg.png')} title="Aquaman" year='2024'/>
-        <CardMovie source={require('../assets/CardImg.png')} title="Aquaman" year='2024'/>
-
-        <CardMovie source={require('../assets/CardImg.png')} title="Aquaman" year='2024'/>
-
-        <CardMovie source={require('../assets/CardImg.png')} title="Aquaman" year='2024'/>
-        <CardMovie source={require('../assets/CardImg.png')} title="Aquaman" year='2024'/>
-        <CardMovie source={require('../assets/CardImg.png')} title="Aquaman" year='2024'/>
-        <CardMovie source={require('../assets/CardImg.png')} title="Aquaman" year='2024'/>
-        <CardMovie source={require('../assets/CardImg.png')} title="Aquaman" year='2024'/> */}
 				</View>
 			</ScrollView>
 		</SafeAreaView>

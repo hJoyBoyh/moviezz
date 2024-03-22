@@ -3,18 +3,19 @@ import React, { createContext, useState, useEffect } from "react";
 import auth from '@react-native-firebase/auth';
 import signInWithEmailAndPassword from '@react-native-firebase/auth'
 import { fetchDiscoverMovies, fetchSearchMovies, fetchTopMovies, fetchTrendingMovies, fetchTypeMovies, fetchVideoSelectedMovies } from "../moviezz-api/model";
+import { Alert } from "react-native";
 
 
 
 export const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
-	//auth variables
+	//auth variables--------------------------
 	const [initializing, setInitializing] = useState(true);
 	const [user, setUser] = useState();
 
 
-	// movies variables
+	// movies variables----------------
 	const [trendingMovies, setTrendingMovies] = useState([]);
 	const [topMovies, setTopMovies] = useState([]);
 	const [discoverMovies, setDiscoverMovies] = useState([]);
@@ -27,20 +28,57 @@ export const AppProvider = ({ children }) => {
 	const [videoSelectedMovie, setVideoSelectedMovie] = useState('')
 
 
-	// auth functions
+
+	// auth functions----------------------
+	function isEmpty(value) {
+		return (value == null || (typeof value === "string" && value.trim().length === 0));
+	  }
+
 	const login = (email, password) => {
+		 
+			if(isEmpty(email) === true){
+				Alert.alert('The email is empty. Enter your email')
+			}
+			else if(isEmpty(password) === true){
+				Alert.alert('The password is empty. Enter your email')
+			}
+			else if(isEmpty(password) === false && isEmpty(email) === false){
+
+			
+		  
+
+
 		auth()
 			.signInWithEmailAndPassword(email, password)
 			.then(() => {
 				console.log('User & login!');
 			})
 			.catch(error => {
-				
-				console.error(error);
+				if(error.code === "auth/invalid-email"){
+				Alert.alert("The email is invalid. Please try again")
+				}
+				if(error.code === "auth/invalid-credential"){
+					Alert.alert("The email or the password is invalid. Please try again")
+				}
+				if(error.code === "auth/too-many-requests"){
+					Alert.alert
+					("We have blocked all requests from this device due to unusual activity. Reload the app")
+				}
+			
 			});
+		}
 	}
 
 	const signUp = (email, password) => {
+
+		if(isEmpty(email) === true){
+			Alert.alert('The email is empty. Enter your email')
+		}
+		else if(isEmpty(password) === true){
+			Alert.alert('The password is empty. Enter your email')
+		}
+		else if(isEmpty(password) === false && isEmpty(email) === false){
+
 		auth()
 			.createUserWithEmailAndPassword(email, password)
 			.then(() => {
@@ -48,14 +86,15 @@ export const AppProvider = ({ children }) => {
 			})
 			.catch(error => {
 				if (error.code === 'auth/email-already-in-use') {
-					console.log('That email address is already in use!');
+					Alert.alert('That email address is already in use!');
 				}
 				if (error.code === 'auth/invalid-email') {
-					console.log('That email address is invalid!');
+					Alert.alert('That email address is invalid!');
 				}
-				console.error(error);
+				;
 			});
 	}
+}
 	const signOut = () => {
 		auth()
 			.signOut()
@@ -67,48 +106,38 @@ export const AppProvider = ({ children }) => {
 		if (initializing) setInitializing(false);
 	}
 
-	// get movie functions
+	// movies functions----------------------
 	const getTrendingMovies = async () => {
 		const data = await fetchTrendingMovies()
 		setTrendingMovies(data)
-		// console.log('ajaj')
-		// console.log(data);
+	
 	}
 
 	const getTopMovies = async () => {
 		const data = await fetchTopMovies()
 		setTopMovies(data)
-		// console.log('ajaj')
-		// console.log(data);
 	}
 
 	const getDiscoverMovies = async () => {
 		const data = await fetchDiscoverMovies()
 		setDiscoverMovies(data)
-		 
 	}
 
 	const getTypeMovies = async () => {
 		const data = await fetchTypeMovies()
 		setTypeMovies(data)
-
-		//console.log(data);
 	}
 
 	// dynamic get movie
 	const getSearchMovies = async () => {
 		const data = await fetchSearchMovies(searchTerm)
 		setResultSearch(data)
-
-		//console.log(data);
 	}
 
 	const getVideoSelectedMovies = async () => {
 		if (selectedMovie !== '') {
 			const data = await fetchVideoSelectedMovies(selectedMovie.id)
-
 			setVideoSelectedMovie(data[0].key)
-			//console.log(data[0].key)
 		}
 	}
 
