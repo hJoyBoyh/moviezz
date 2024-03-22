@@ -13,6 +13,7 @@ export const AppProvider = ({ children }) => {
 	const [initializing, setInitializing] = useState(true);
 	const [user, setUser] = useState();
 
+
 	// movies variables
 	const [trendingMovies, setTrendingMovies] = useState([]);
 	const [topMovies, setTopMovies] = useState([]);
@@ -25,6 +26,7 @@ export const AppProvider = ({ children }) => {
 	const [selectedMovie, setSelectedMovie] = useState('')
 	const [videoSelectedMovie, setVideoSelectedMovie] = useState('')
 
+
 	// auth functions
 	const login = (email, password) => {
 		auth()
@@ -33,6 +35,7 @@ export const AppProvider = ({ children }) => {
 				console.log('User & login!');
 			})
 			.catch(error => {
+				
 				console.error(error);
 			});
 	}
@@ -82,8 +85,7 @@ export const AppProvider = ({ children }) => {
 	const getDiscoverMovies = async () => {
 		const data = await fetchDiscoverMovies()
 		setDiscoverMovies(data)
-		// console.log('aSASASsasSSASAS')
-		// console.log(data[0]);
+		 
 	}
 
 	const getTypeMovies = async () => {

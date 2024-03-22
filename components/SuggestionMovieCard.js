@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-no-undef */
 /* eslint-disable prettier/prettier */
 /* eslint-disable react/self-closing-comp */
-import React from 'react';
+import React ,{useContext}from 'react';
 
 import {
 	Image,
@@ -12,9 +12,21 @@ import {
 import { SubTitle } from './SubTitle';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { SafeAreaView } from 'react-native';
+import { AppContext } from '../context/AppContext';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 // props: source(img)- title(title of the movie)- year(year of the realest of the movie)
 export function SuggestionMovieCard(props) {
+
+	const { videoSelectedMovie, setVideoSelectedMovie, setSelectedMovie, selectedMovie, getVideoSelectedMovies } = useContext(AppContext);
+
+	const handleCardRedirection = () => {
+		setSelectedMovie(props.discoverMovie);
+		getVideoSelectedMovies();
+		props.navigation.navigate('SelectedMovie');
+		console.log(selectedMovie.id);
+		console.log(videoSelectedMovie);
+	};
 
 	return (
 		<SafeAreaView style={styles.safeAreaView}>
@@ -28,7 +40,10 @@ export function SuggestionMovieCard(props) {
 				<Text style={styles.text}>{props.year}</Text>
 
 				<View style={styles.suggestionBox}>
+					<TouchableOpacity onPress={()=>handleCardRedirection()}>
 					<Text style={styles.suggestionBoxText}>Info</Text>
+					</TouchableOpacity>
+					
 					<Ionicons name='heart-outline' color='black' size={25} style={styles.heart} />
 				</View>
 

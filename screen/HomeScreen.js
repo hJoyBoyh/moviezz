@@ -21,41 +21,6 @@ import { SuggestionMovieCard } from '../components/SuggestionMovieCard';
 import { MovieListCarousel } from '../components/MovieListCarousel';
 import { FavoriteMovieCard } from '../components/FavoriteMovieCard';
 
-const DATA = [
-	{
-		id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-
-	},
-	{
-		id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-
-	},
-	{
-		id: '58694a0f-3da1-471f-bd96-145571e29d72',
-
-	},
-	{
-		id: '586s94a0f-3da1-471f-bd96-145571e29d72',
-
-	},
-	{
-		id: '58694a0fa-3da1-471f-bd96-145571e29d72',
-
-	},
-	{
-		id: '5869A4a0fa-3da1-471f-bd96-145571e29d72',
-
-	},
-	{
-		id: '58694a0faQW-3da1-471f-bd96-145571e29d72',
-
-	},
-	{
-		id: '58694a0fa-3da1SFD-471f-bd96-145571e29d72',
-
-	},
-
-];
 import auth from '@react-native-firebase/auth';
 import { AppContext } from '../context/AppContext';
 import { API_BASE_URL_IMG } from '../moviezz-api/manager';
@@ -63,12 +28,13 @@ import { API_BASE_URL_IMG } from '../moviezz-api/manager';
 export function HomeScreen({ navigation }) {
 	const { trendingMovies, topMovies, discoverMovies } = useContext(AppContext)
 	const suggestionMovie = discoverMovies[0]
+	console.log(suggestionMovie)
 
 	return (
 
 		<SafeAreaView style={styles.container}>
 			<ScrollView>
-				<SuggestionMovieCard source={{ uri: `${API_BASE_URL_IMG}${suggestionMovie.poster_path}` }} title={suggestionMovie.original_title} year={suggestionMovie.release_date.split('-')[0]}></SuggestionMovieCard>
+				<SuggestionMovieCard source={{ uri: `${API_BASE_URL_IMG}${suggestionMovie.poster_path}` }} title={suggestionMovie.title} year={suggestionMovie.release_date.split('-')[0]} discoverMovie={suggestionMovie} navigation={navigation} ></SuggestionMovieCard>
 				<MovieListCarousel data={trendingMovies} firstWord='Moviezz' restWord=' for you' handleSeeAll={() => console.log('haha')} navigation={navigation}></MovieListCarousel>
 				<MovieListCarousel data={topMovies} firstWord='Top' restWord=' moviezz 250' handleSeeAll={() => console.log('haha')} navigation={navigation}></MovieListCarousel>
 			</ScrollView>
