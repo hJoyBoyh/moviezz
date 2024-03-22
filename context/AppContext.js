@@ -1,20 +1,19 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { createContext, useState, useEffect } from "react";
 import auth from '@react-native-firebase/auth';
-import signInWithEmailAndPassword from '@react-native-firebase/auth'
+import signInWithEmailAndPassword from '@react-native-firebase/auth';
 import { fetchDiscoverMovies, fetchSearchMovies, fetchTopMovies, fetchTrendingMovies, fetchTypeMovies, fetchVideoSelectedMovies } from "../moviezz-api/model";
 import { Alert } from "react-native";
-
-
+import PushNotification from 'react-native-push-notification';
 
 export const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
-	//auth variables--------------------------
+	// auth variables
 	const [initializing, setInitializing] = useState(true);
 	const [user, setUser] = useState();
 
-	// movies variables----------------
+	// movies variables
 	const [trendingMovies, setTrendingMovies] = useState([]);
 	const [topMovies, setTopMovies] = useState([]);
 	const [discoverMovies, setDiscoverMovies] = useState([]);
@@ -99,14 +98,24 @@ export const AppProvider = ({ children }) => {
 	const addToFavorites = async (movie) => {
 		const updatedFavorites = [...favorites, movie];
 		await AsyncStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+
+		PushNotification.localNotification({
+			title: 'Favorites Updated',
+			message: 'Your favorites have been updated!',
+		});
+
 		setFavorites(updatedFavorites);
 	};
 
 	const removeFromFavorites = async (movieId) => {
 		const updatedFavorites = favorites.filter(movie => movie.id !== movieId);
 		await AsyncStorage.setItem('favorites', JSON.stringify(updatedFavorites));
-		console.log('Removed favorites : ' + movieId)
-		console.log(updatedFavorites.length)
+
+		PushNotification.localNotification({
+			title: 'Favorites Updated',
+			message: 'Your favorites have been updated!',
+		});
+
 		setFavorites(updatedFavorites);
 	};
 
