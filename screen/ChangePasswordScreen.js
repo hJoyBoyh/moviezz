@@ -3,25 +3,16 @@
 import React, { useContext } from 'react';
 
 import {
-	Image,
 	KeyboardAvoidingView,
-	Pressable,
 	SafeAreaView,
-	ScrollView,
 	StyleSheet,
-	Text,
-	TextInput,
 	View,
 } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+
 
 import { Title } from '../components/Title';
-import { Form } from '../components/Form';
-import { InputText } from '../components/InputText';
 import { CustomButton } from '../components/CustomButton';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-
-import auth, { sendPasswordResetEmail } from '@react-native-firebase/auth';
 import { AppContext } from '../context/AppContext';
 
 
