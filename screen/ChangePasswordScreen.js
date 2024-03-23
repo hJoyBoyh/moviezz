@@ -1,6 +1,6 @@
 /* eslint-disable react/self-closing-comp */
 /* eslint-disable prettier/prettier */
-import React from 'react';
+import React, { useContext } from 'react';
 
 import {
 	Image,
@@ -18,27 +18,29 @@ import { NavigationContainer } from '@react-navigation/native';
 import { Title } from '../components/Title';
 import { Form } from '../components/Form';
 import { InputText } from '../components/InputText';
-import { Button1 } from '../components/Button1';
+import { CustomButton } from '../components/CustomButton';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
+import auth, { sendPasswordResetEmail } from '@react-native-firebase/auth';
+import { AppContext } from '../context/AppContext';
+
+
 export function ChangePasswordScreen({ navigation }) {
+	const { user,updatePassword ,signOut } = useContext(AppContext)
+	const userEmail = user.email
+	const handleUpdatePassword =()=>{
+		updatePassword(userEmail)
+		signOut()
+	}
+
 	return (
 		<SafeAreaView style={styles.container}>
 			<KeyboardAvoidingView behavior={'height'}>
 				<FontAwesome5 name='angle-left' color='#9F9F95' size={35} onPress={() => navigation.navigate('Settings')} style={styles.redirectionIcon} />
 				<View style={styles.content}>
 					<Title title="Change Password" />
-					<Form input01={
-						<InputText placeholder="Current Password:-" editable={false} hideRedirectionIcon={true} />
-					}
-						input02={
-							<InputText placeholder="New password" hideRedirectionIcon={true} />
-						}
-						input03={
-							<InputText placeholder="Re-enter new password" hideRedirectionIcon={true} />
-						}
-					/>
-					<Button1 title="Confirm"></Button1>
+					
+					<CustomButton title="Send link to your email" onPress={() => handleUpdatePassword()}/>
 				</View>
 			</KeyboardAvoidingView>
 		</SafeAreaView>

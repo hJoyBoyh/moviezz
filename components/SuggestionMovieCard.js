@@ -9,7 +9,7 @@ import { SubTitle } from './SubTitle';
 import { AppContext } from '../context/AppContext';
 
 export function SuggestionMovieCard(props) {
-	const { videoSelectedMovie, setVideoSelectedMovie, setSelectedMovie, selectedMovie, getVideoSelectedMovies, addToFavorites, removeFromFavorites, favorites } = useContext(AppContext);
+	const {  setSelectedMovie, getVideoSelectedMovies, addToFavorites, removeFromFavorites, favorites } = useContext(AppContext);
 	const [isFavorite, setIsFavorite] = useState(false);
 
 	const handleCardRedirection = () => {

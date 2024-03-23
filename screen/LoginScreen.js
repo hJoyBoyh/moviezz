@@ -11,16 +11,16 @@ import {
 } from 'react-native';
 import { ImageAuth } from '../components/ImageAuth';
 import { Title } from '../components/Title';
-import { Button1 } from '../components/Button1';
+import { CustomButton} from '../components/CustomButton';
 import { Form } from '../components/Form';
 import { InputText } from '../components/InputText';
 import { AppContext } from '../context/AppContext';
-import { getTrendingMovie } from '../moviezz-api/model';
 
 export function LoginScreen({ navigation }) {
 	const { login } = useContext(AppContext)
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
+	
 	return (
 		<SafeAreaView style={styles.container}>
 			<KeyboardAvoidingView behavior={'height'}>
@@ -31,7 +31,7 @@ export function LoginScreen({ navigation }) {
 						input01={<InputText placeholder='Email' value={email} onChangeText={email => setEmail(email)} hideRedirectionIcon={true} />}
 						input02={<InputText placeholder='Password' secureTextEntry={true} value={password} onChangeText={password => setPassword(password)} hideRedirectionIcon={true} />}
 					/>
-					<Button1 title='Login' onPress={() => login(email, password)}></Button1>
+					<CustomButton title='Login' onPress={() => login(email, password)}/>
 					<View style={styles.textContainer}>
 						<Text style={styles.text}>New to the app ?</Text>
 						<Text style={styles.textNavigation} onPress={() => navigation.navigate('Register')}>Register</Text>

@@ -31,10 +31,10 @@ export function SelectedMovieScreen({ navigation }) {
 				<Text style={styles.text}>Synopsis: {selectedMovie.overview}</Text>
 				<Text style={styles.text}>Rating: {selectedMovie.vote_average}</Text>
 				<Text style={styles.text}>Release date: {selectedMovie.release_date}</Text>
-				<TouchableOpacity style={styles.btn} onPress={() => navigation.goBack()}>
-					<Text style={styles.btnText}>Quit</Text>
+				<TouchableOpacity style={styles.button} onPress={() => navigation.goBack()}>
+					<Text style={styles.buttonText}>Quit</Text>
 				</TouchableOpacity>
-				<TouchableOpacity style={styles.favoriteBtn} onPress={toggleFavorite}>
+				<TouchableOpacity style={styles.favoriteButton} onPress={toggleFavorite}>
 					<Ionicons name={isFavorite ? 'heart' : 'heart-outline'} color='white' size={25} />
 				</TouchableOpacity>
 			</View>
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
 		paddingLeft: 12,
 		paddingBottom: 10
 	},
-	btn: {
+	button: {
 		height: 50,
 		width: 100,
 		marginLeft: 12,
@@ -66,11 +66,11 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
-	btnText: {
+	buttonText: {
 		color: 'black',
 		fontSize: 18,
 	},
-	favoriteBtn: {
+	favoriteButton: {
 		height: 50,
 		width: 100,
 		marginLeft: 12,

@@ -2,24 +2,17 @@ import React, { useContext } from 'react';
 import { SearchBar } from '@rneui/themed';
 import { View, StyleSheet } from 'react-native';
 import { AppContext } from '../context/AppContext';
-import { fetchSearchMovies } from '../moviezz-api/model';
 
 const SearchBarComponent = () => {
-	const { setSearchTerm, searchTerm, resultSearch, setResultSearch, getSearchMovies } = useContext(AppContext);
-
-	const updateSearch = (text) => {
-		getSearchMovies();
-		setSearchTerm(text);
-		console.log('haha');
-	};
+	const { setSearchTerm, searchTerm} = useContext(AppContext);
 
 	return (
-		<View style={styles.view}>
+		<View style={styles.searchBarView}>
 			<SearchBar
-				containerStyle={styles.container}
-				inputContainerStyle={styles.inputContainer}
+				containerStyle={styles.searchBarContainer}
+				inputContainerStyle={styles.searchBarInputContainer}
 				placeholder="What do you want to watch ?"
-				onChangeText={(text) => updateSearch(text)}
+				onChangeText={(text) => setSearchTerm(text)}
 				value={searchTerm}
 			/>
 		</View>
@@ -27,26 +20,18 @@ const SearchBarComponent = () => {
 };
 
 const styles = StyleSheet.create({
-	flex: {
-		display: 'flex',
-		flexDirection: 'row',
-		alignItems: 'center',
-	},
-	view: {
+	searchBarView: {
 		margin: 10,
 		width: 320,
 	},
-	container: {
+	searchBarContainer: {
 		backgroundColor: '#292928',
 		borderBottomColor: '#292928',
 		borderTopColor: '#292928',
 	},
-	inputContainer: {
+	searchBarInputContainer: {
 		backgroundColor: '#3D3D3A',
 		borderRadius: 30,
-	},
-	text: {
-		color: 'white',
 	},
 });
 

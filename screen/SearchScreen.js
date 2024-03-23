@@ -1,6 +1,6 @@
 /* eslint-disable react/self-closing-comp */
 /* eslint-disable prettier/prettier */
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 
 import {
 	SafeAreaView,
@@ -9,29 +9,18 @@ import {
 	Text,
 	View,
 } from 'react-native';
-
 import { CardMovie } from '../components/CardMovie';
-
 import { NoResultSearch } from '../components/NoResultSearch';
 import SearchBarComponent from '../components/SearchBarComponent';
 import { AppContext } from '../context/AppContext';
-import {  API_BASE_URL_IMG } from '../moviezz-api/manager';
-
-
+import { API_BASE_URL_IMG } from '../moviezz-api/manager';
 import { LogBox } from 'react-native';
+
 LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
 LogBox.ignoreAllLogs();//Ignore all log notifications
 
 export function SearchScreen({ navigation }) {
-	const { resultSearch, setSelectedMovie, getVideoSelectedMovies, selectedMovie, videoSelectedMovie } = useContext(AppContext)
-
-	const handleCardRedirection = (item) => {
-		setSelectedMovie(item)
-		getVideoSelectedMovies()
-		navigation.navigate('SelectedMovie')
-		console.log(selectedMovie.id)
-		console.log(videoSelectedMovie)
-	}
+	const { resultSearch, handleCardRedirection } = useContext(AppContext)
 
 	return (
 		<SafeAreaView style={styles.background}>
@@ -39,12 +28,11 @@ export function SearchScreen({ navigation }) {
 				<SearchBarComponent></SearchBarComponent>
 				<Text style={styles.text} onPress={() => navigation.navigate('Home')}>Annuler</Text>
 			</View>
-			{/* <NoResultSearch></NoResultSearch> */}
 			<ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: 10 }}>
 				<View style={styles.content}>
 
 					{resultSearch.length === 0 ? <NoResultSearch></NoResultSearch> : resultSearch.map((movie) => {
-						return <CardMovie source={{ uri: `${API_BASE_URL_IMG}${movie.poster_path}` }} title={movie.original_title} year={movie.release_date.split('-')[0]} onPress={() => { handleCardRedirection(movie) }} />
+						return <CardMovie source={{ uri: `${API_BASE_URL_IMG}${movie.poster_path}` }} title={movie.original_title} year={movie.release_date.split('-')[0]} onPress={() => { handleCardRedirection(movie, navigation) }} />
 
 					})}
 
@@ -55,16 +43,17 @@ export function SearchScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-	flex: {
-		display: 'flex',
-		flexDirection: 'row',
-		alignItems: 'center'
-	},
 	background: {
 		backgroundColor: '#292928',
 		display: 'flex',
 		flex: 1
 	},
+	flex: {
+		display: 'flex',
+		flexDirection: 'row',
+		alignItems: 'center'
+	},
+
 	content: {
 		display: 'flex',
 		flexDirection: 'row',
@@ -73,15 +62,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		backgroundColor: '#292928'
 	},
-	textContainer: {
-		display: 'flex',
-		flexDirection: 'row',
-		gap: 2,
-	},
-	text: {
+	text:{
 		color: '#ffffff'
-	},
-	textNavigation: {
-		color: '#d1c901'
-	},
+	}
 });

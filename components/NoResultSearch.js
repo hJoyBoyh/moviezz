@@ -4,11 +4,9 @@
 import React from 'react';
 
 import {
-
 	Image,
 	StyleSheet,
 	Text,
-	TextInput,
 	View,
 } from 'react-native';
 
@@ -30,14 +28,11 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		flex: 1
 	},
-
 	text: {
 		color: 'white',
 		textAlign: 'center',
 		width: 300,
 		fontSize: 16,
-
-
 	},
 
 

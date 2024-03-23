@@ -3,19 +3,9 @@
 import React from 'react';
 
 import {
-	Image,
-	KeyboardAvoidingView,
-	Pressable,
 	SafeAreaView,
-	ScrollView,
 	StyleSheet,
-	Text,
-	TextInput,
-	View,
 } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { CardMovie } from '../components/CardMovie';
-import Icon from 'react-native-vector-icons/FontAwesome'
 import { SubTitle } from '../components/SubTitle';
 
 export function ShowMoviezzScreen({ navigation }) {
@@ -35,23 +25,5 @@ const styles = StyleSheet.create({
 		gap: 15,
 		alignItems: 'center',
 		backgroundColor: '#292928'
-	},
-	content: {
-		display: 'flex',
-		gap: 20,
-		justifyContent: 'space-around',
-		alignItems: 'center',
-		backgroundColor: '#292928'
-	},
-	textContainer: {
-		display: 'flex',
-		flexDirection: 'row',
-		gap: 2,
-	},
-	text: {
-		color: '#ffffff'
-	},
-	textNavigation: {
-		color: '#d1c901'
 	},
 });

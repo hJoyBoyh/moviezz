@@ -14,12 +14,13 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { AppContext } from '../context/AppContext';
 
 function CustomDrawer(props) {
-	const { initializing, user, signOut } = useContext(AppContext)
-	let username = user.email.split('@')[0]
-
+	const { user, signOut } = useContext(AppContext)
+	
+	const username = user.displayName
+	console.log(user)
 	return (
 		<View style={styles.container}>
-			<Text style={styles.username}>{username}</Text>
+			<Text style={styles.username}>{username === null ? "Reload to see username": username }</Text>
 
 			<DrawerContentScrollView
 				{...props}

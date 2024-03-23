@@ -4,17 +4,14 @@
 import React from 'react';
 
 import {
-
-
 	Pressable,
-
 	StyleSheet,
 	Text,
 	View,
 } from 'react-native';
 
 
-export function Button1(props) {
+export function CustomButton(props) {
 	return (
 		<View>
 			<Pressable style={styles.button} onPress={props.onPress}>
@@ -29,18 +26,17 @@ const styles = StyleSheet.create({
 	button: {
 		height: 60,
 		width: 310,
-
 		display: 'flex',
 		justifyContent: 'center',
 		backgroundColor: '#d1c800',
-		borderRadius: 20
+		borderRadius: 20,
+		marginBottom:10
 
 	},
 	buttonText: {
 		fontSize: 24,
 		color: '#ffffff',
 		fontWeight: 'bold',
-
 		textAlign: 'center'
 	}
 });

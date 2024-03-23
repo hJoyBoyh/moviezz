@@ -1,24 +1,22 @@
 /* eslint-disable react/self-closing-comp */
 /* eslint-disable prettier/prettier */
 import React, { useContext, useState } from 'react';
-
 import {
 	Image,
 	KeyboardAvoidingView,
-	Pressable,
 	SafeAreaView,
-	ScrollView,
 	StyleSheet,
 	Text,
-	TextInput,
 	View,
 } from 'react-native';
 import { InputText } from '../components/InputText';
-import { NavigationContainer } from '@react-navigation/native';
 import { AppContext } from '../context/AppContext';
+import { CustomButton } from '../components/CustomButton';
+import { Title } from '../components/Title';
 
 export function RegisterScreen({ navigation }) {
-	const { initializing, user, signUp } = useContext(AppContext)
+	const { signUp } = useContext(AppContext)
+	const [username, setUserName] = useState('')
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 
@@ -30,19 +28,16 @@ export function RegisterScreen({ navigation }) {
 					<View>
 						<Image source={require('../assets/RegisterImg.png')} style={styles.registerImg}></Image>
 					</View>
-					<View>
-						<Text style={styles.title}>Register</Text>
-					</View>
+					<Title title='Register'></Title>
+
 					<View style={styles.form}>
 						{/* <InputText placeholder="Username"></InputText> */}
+						<InputText placeholder="Username" value={username} onChangeText={text => setUserName(text)} hideRedirectionIcon={true}></InputText>
 						<InputText placeholder="Email" value={email} onChangeText={text => setEmail(text)} hideRedirectionIcon={true}></InputText>
 						<InputText placeholder="Password" value={password} onChangeText={password => setPassword(password)} secureTextEntry={true} hideRedirectionIcon={true}></InputText>
 					</View>
-					<View>
-						<Pressable style={styles.button} onPress={() => signUp(email, password)}>
-							<Text style={styles.buttonText}>Register</Text>
-						</Pressable>
-					</View>
+					<CustomButton title='Register' onPress={() => signUp(email, password, username)} />
+
 					<View style={styles.textContainer}>
 						<Text style={styles.text}>Already have an account ?</Text>
 						<Text style={styles.textNavigation} onPress={() => navigation.navigate('Login')}>Login</Text>
@@ -82,10 +77,7 @@ const styles = StyleSheet.create({
 		marginTop: 20,
 		borderRadius: 15,
 	},
-	title: {
-		fontSize: 50,
-		color: 'white'
-	},
+
 	textContainer: {
 		display: 'flex',
 		flexDirection: 'row',
@@ -97,25 +89,4 @@ const styles = StyleSheet.create({
 	textNavigation: {
 		color: '#d1c901'
 	},
-	input: {
-		color: 'white',
-		width: 350,
-		borderBottomColor: '#ffffff',
-		borderBottomWidth: 1,
-	},
-	button: {
-		height: 60,
-		width: 310,
-		display: 'flex',
-		justifyContent: 'center',
-		backgroundColor: '#d1c800',
-		borderRadius: 20
-
-	},
-	buttonText: {
-		fontSize: 24,
-		color: '#ffffff',
-		fontWeight: 'bold',
-		textAlign: 'center'
-	}
 });

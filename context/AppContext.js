@@ -1,7 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { createContext, useState, useEffect } from "react";
 import auth from '@react-native-firebase/auth';
-import signInWithEmailAndPassword from '@react-native-firebase/auth';
 import { fetchDiscoverMovies, fetchSearchMovies, fetchTopMovies, fetchTrendingMovies, fetchTypeMovies, fetchVideoSelectedMovies } from "../moviezz-api/model";
 import { Alert } from "react-native";
 import Snackbar from 'react-native-snackbar';
@@ -9,22 +8,23 @@ import Snackbar from 'react-native-snackbar';
 export const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
-	// auth variables
+	// auth variables-------------------------------------------------------
 	const [initializing, setInitializing] = useState(true);
 	const [user, setUser] = useState();
 
-	// movies variables
+	// movies variables------------------------------------------------------------
 	const [trendingMovies, setTrendingMovies] = useState([]);
+	const [trendingMoviesPage, setTrendingMoviesPage] = useState(1)
 	const [topMovies, setTopMovies] = useState([]);
+	const [topMoviesPage, setTopMoviesPage] = useState(1)
 	const [discoverMovies, setDiscoverMovies] = useState([]);
-	const [typeMovies, setTypeMovies] = useState([]);
 	const [searchTerm, setSearchTerm] = useState('');
 	const [resultSearch, setResultSearch] = useState([]);
 	const [selectedMovie, setSelectedMovie] = useState('')
 	const [videoSelectedMovie, setVideoSelectedMovie] = useState('')
 	const [favorites, setFavorites] = useState([]);
 
-	// auth functions----------------------
+	// auth functions-------------------------------------------------------------------
 	function isEmpty(value) {
 		return (value == null || (typeof value === "string" && value.trim().length === 0));
 	}
@@ -40,9 +40,7 @@ export const AppProvider = ({ children }) => {
 		else if (isEmpty(password) === false && isEmpty(email) === false) {
 			auth()
 				.signInWithEmailAndPassword(email, password)
-				.then(() => {
-					console.log('User & login!');
-				})
+				.then(() => {})
 				.catch(error => {
 					if (error.code === "auth/invalid-email") {
 						Alert.alert("The email is invalid. Please try again")
@@ -54,23 +52,33 @@ export const AppProvider = ({ children }) => {
 						Alert.alert
 							("We have blocked all requests from this device due to unusual activity. Reload the app")
 					}
+					console.log(error)
 				});
 		}
 	}
 
-	const signUp = (email, password) => {
+	const  signUp =  async (email, password,username) => {
 		if (isEmpty(email) === true) {
 			Alert.alert('The email is empty. Enter your email')
 		}
 		else if (isEmpty(password) === true) {
 			Alert.alert('The password is empty. Enter your email')
+		}else if (isEmpty(username) === true) {
+			Alert.alert('The username is empty. Enter your email')
 		}
-		else if (isEmpty(password) === false && isEmpty(email) === false) {
+		else if (isEmpty(password) === false && isEmpty(email) === false && isEmpty(username) === false) {
 
-			auth()
+			 await auth()
 				.createUserWithEmailAndPassword(email, password)
+				
 				.then(() => {
 					console.log('User account created & signed in!');
+					const update = {
+						displayName: username,
+					  };
+
+					  auth().currentUser.updateProfile(update);
+					  
 				})
 				.catch(error => {
 					if (error.code === 'auth/email-already-in-use') {
@@ -79,7 +87,10 @@ export const AppProvider = ({ children }) => {
 					if (error.code === 'auth/invalid-email') {
 						Alert.alert('That email address is invalid!');
 					}
-					;
+					if (error.code === 'auth/weak-password') {
+						Alert.alert('The password is too weak');
+					}
+					console.log(error)
 				});
 		}
 	}
@@ -89,12 +100,30 @@ export const AppProvider = ({ children }) => {
 			.then(() => console.log('User signed out!'));
 	}
 
+	const updatePassword = (Email) => {
+		auth().sendPasswordResetEmail(Email)
+			.then(function () {
+				Alert.alert('Link Send. Please check your email...')
+			}).catch(function (e) {
+				console.log(e)
+			})
+	}
+
+	const updateUserName = (userName) => {
+		const update = {
+			displayName: userName,
+		  };
+
+		  auth().currentUser.updateProfile(update);
+		  Alert.alert('The username has been update reload')
+	}
 	function onAuthStateChanged(user) {
 		setUser(user);
+		
 		if (initializing) setInitializing(false);
 	}
 
-	// movies functions----------------------
+	// movies functions-----------------------------------------------------
 	const addToFavorites = async (movie) => {
 		const updatedFavorites = [...favorites, movie];
 		await AsyncStorage.setItem('favorites', JSON.stringify(updatedFavorites));
@@ -130,18 +159,15 @@ export const AppProvider = ({ children }) => {
 		}
 	};
 
-	useEffect(() => {
-		loadFavorites();
-	}, []);
 
-	const getTrendingMovies = async () => {
-		const data = await fetchTrendingMovies()
+	const getTrendingMovies = async (page) => {
+		const data = await fetchTrendingMovies(page)
 		setTrendingMovies(data)
 
 	}
 
-	const getTopMovies = async () => {
-		const data = await fetchTopMovies()
+	const getTopMovies = async (page) => {
+		const data = await fetchTopMovies(page)
 		setTopMovies(data)
 	}
 
@@ -150,42 +176,45 @@ export const AppProvider = ({ children }) => {
 		setDiscoverMovies(data)
 	}
 
-	const getTypeMovies = async () => {
-		const data = await fetchTypeMovies()
-		setTypeMovies(data)
-	}
-
-	// dynamic get movie
+	// search movie -----------------
 	const getSearchMovies = async () => {
 		const data = await fetchSearchMovies(searchTerm)
 		setResultSearch(data)
 	}
-
+//  yt video of the movie -----------------
 	const getVideoSelectedMovies = async () => {
 		if (selectedMovie !== '') {
 			const data = await fetchVideoSelectedMovies(selectedMovie.id)
 			setVideoSelectedMovie(data[0].key)
 		}
 	}
+	// redirection when clicking on a card
+	const handleCardRedirection = (item,navigation) => {
+		setSelectedMovie(item);
+		getVideoSelectedMovies();
+		navigation.navigate('SelectedMovie');
+		console.log(selectedMovie.id);
+		console.log(videoSelectedMovie);
+	};
 
 	useEffect(() => {
-		// movies function calls
-		getTrendingMovies()
-		getTopMovies()
+		getTrendingMovies(trendingMoviesPage)
+		getTopMovies(topMoviesPage)
 		getDiscoverMovies()
+		loadFavorites();
 		// auth function calls
 		const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+		
 		return subscriber; // unsubscribe on unmount
 	}, []);
 
-	// selecting a card movie
 
+	// selecting a card movie
 	useEffect(() => {
 		getVideoSelectedMovies()
 	}, [selectedMovie]);
 
 	// when searching a movie 
-
 	useEffect(() => {
 		// movies function calls
 		getSearchMovies()
@@ -198,7 +227,9 @@ export const AppProvider = ({ children }) => {
 				initializing,
 				user,
 				trendingMovies,
+				trendingMoviesPage,
 				topMovies,
+				topMoviesPage,
 				discoverMovies,
 				searchTerm,
 				resultSearch,
@@ -209,12 +240,19 @@ export const AppProvider = ({ children }) => {
 				signUp,
 				signOut,
 				login,
+				updatePassword,
 				getSearchMovies,
+				updateUserName,
 				setResultSearch,
 				setSelectedMovie,
 				setSearchTerm,
+				setTrendingMoviesPage,
+				setTopMoviesPage,
 				getVideoSelectedMovies,
-				setVideoSelectedMovie
+				getTrendingMovies,
+				getTopMovies,
+				setVideoSelectedMovie,
+				handleCardRedirection
 			}}
 		>
 			{children}

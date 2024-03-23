@@ -1,45 +1,41 @@
 /* eslint-disable react/self-closing-comp */
 /* eslint-disable prettier/prettier */
-import React from 'react';
+import React ,{useState , useContext}from 'react';
 
 import {
-	Image,
 	KeyboardAvoidingView,
-	Pressable,
 	SafeAreaView,
-	ScrollView,
 	StyleSheet,
-	Text,
-	TextInput,
 	View,
 } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-
 import { Title } from '../components/Title';
 import { Form } from '../components/Form';
 import { InputText } from '../components/InputText';
-import { Button1 } from '../components/Button1';
+import { CustomButton} from '../components/CustomButton';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import { AppContext } from '../context/AppContext';
 
-export function ChangeEmailScreen({ navigation }) {
+export function ChangeUserNameScreen({ navigation }) {
+	const [newUserName, setNewUserName] = useState("")
+	const {user, updateUserName} = useContext(AppContext)
+
 	return (
 
 		<SafeAreaView style={styles.container}>
 			<KeyboardAvoidingView behavior={'height'}>
 				<FontAwesome5 name='angle-left' color='#9F9F95' size={35} onPress={() => navigation.navigate('Settings')} style={styles.redirectionIcon} />
 				<View style={styles.content}>
-					<Title title="Change Email" />
+					<Title title="Change Username" />
 					<Form input01={
-						<InputText placeholder="Current Email : Kenny@gmail.com" editable={false} hideRedirectionIcon={true} />
+						<InputText placeholder={`Current Username : ${user.displayName}`} editable={false} hideRedirectionIcon={true} />
 					}
+					
 						input02={
-							<InputText placeholder="New email" hideRedirectionIcon={true} />
+							<InputText placeholder="New Username " hideRedirectionIcon={true} value={newUserName} onChangeText={(text)=> setNewUserName(text)} />
 						}
-						input03={
-							<InputText placeholder="Re-enter  new email" hideRedirectionIcon={true} />
-						}
+						
 					/>
-					<Button1 title="Confirm"></Button1>
+					<CustomButton title="Confirm" onPress={() => updateUserName(newUserName)}/>
 				</View>
 			</KeyboardAvoidingView>
 		</SafeAreaView>

@@ -37,8 +37,6 @@ const styles = StyleSheet.create({
 	},
 	redirectionIcon: {
 		marginTop: 0,
-
-
 	},
 	hideRedirectionIcon: {
 		width: 0

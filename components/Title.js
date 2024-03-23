@@ -22,7 +22,8 @@ export function Title(props) {
 const styles = StyleSheet.create({
 	titleContainer: {
 		display: 'flex',
-		width: 370,
+		width: 380,
+		height:180
 	},
 	title: {
 		fontSize: 50,

@@ -1,23 +1,23 @@
 /* eslint-disable prettier/prettier */
 import 'react-native-gesture-handler';
 import React from 'react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { DrawerToggleButton, createDrawerNavigator } from '@react-navigation/drawer';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import { HomeScreen } from '../screen/HomeScreen';
-import { ChangeEmailScreen } from '../screen/ChangeEmailScreen';
+import { ChangeUserNameScreen } from '../screen/ChangeUserNameScreen';
 import { ChangePasswordScreen } from '../screen/ChangePasswordScreen';
+import { MoviezzForYouScreen } from '../screen/MoviezzForYouScreen';
+import { TopMoviezzScreen } from '../screen/TopMoviezzScreen';
 import { CinemaNearMeScreen } from '../screen/CinemaNearMeScreen';
 import { SettingsScreen } from '../screen/SettingsScreen';
 import { SearchScreen } from '../screen/SearchScreen';
 import { FavoriteScreen } from '../screen/FavoriteScreen';
+import { StyleSheet, TouchableOpacity } from 'react-native'
+import { LogoMini } from '../components/LogoMini';
+import { SelectedMovieScreen } from '../screen/SelectedMovieScreen';
 import CustomDrawer from '../components/CustomDrawer';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { Image, StyleSheet, Text, TouchableOpacity } from 'react-native'
-import { DrawerActions } from '@react-navigation/native';
-import { LogoMini } from '../components/LogoMini';
-import { IconSearch } from '../components/IconSearch';
-import { SelectedMovieScreen } from '../screen/SelectedMovieScreen';
+
 
 const Drawer = createDrawerNavigator();
 
@@ -81,55 +81,56 @@ export function AppStack({ }) {
 				})}
 			/>
 			<Drawer.Screen name="Cinema" component={CinemaNearMeScreen}
-			options={({ navigation }) => ({
-				headerRight: () => (
-					<TouchableOpacity
-						style={styles.buttonStyle}
-						onPress={() => navigation.navigate('Search')}>
-						<Ionicons name="search-outline" size={22} color='white' />
-					</TouchableOpacity>
-				),
-				headerTitle: () => <LogoMini />,
-				drawerActiveBackgroundColor: 'gold',
-				drawerActiveTintColor: '#000',
-				drawerInactiveTintColor: 'white',
-				drawerLabelStyle: {
-					fontFamily: 'Roboto-Medium',
-					fontSize: 15,
-				},
+				options={({ navigation }) => ({
+					headerRight: () => (
+						<TouchableOpacity
+							style={styles.buttonStyle}
+							onPress={() => navigation.navigate('Search')}>
+							<Ionicons name="search-outline" size={22} color='white' />
+						</TouchableOpacity>
+					),
+					headerTitle: () => <LogoMini />,
+					drawerActiveBackgroundColor: 'gold',
+					drawerActiveTintColor: '#000',
+					drawerInactiveTintColor: 'white',
+					drawerLabelStyle: {
+						fontFamily: 'Roboto-Medium',
+						fontSize: 15,
+					},
 
-				drawerIcon: ({ color }) => (
-					<MaterialCommunityIcons name="movie-outline" size={22} color={color} />
-				),
-			})}
-			
-			
-		 />
+					drawerIcon: ({ color }) => (
+						<MaterialCommunityIcons name="movie-outline" size={22} color={color} />
+					),
+				})}
+
+
+			/>
 			<Drawer.Screen name="Settings" component={SettingsScreen}
-			options={({ navigation }) => ({
-				headerRight: () => (
-					<TouchableOpacity
-						style={styles.buttonStyle}
-						onPress={() => navigation.navigate('Search')}>
-						<Ionicons name="search-outline" size={22} color='white' />
-					</TouchableOpacity>
-				),
-				headerTitle: () => <LogoMini />,
-				drawerActiveBackgroundColor: 'gold',
-				drawerActiveTintColor: '#000',
-				drawerInactiveTintColor: 'white',
-				drawerLabelStyle: {
-					fontFamily: 'Roboto-Medium',
-					fontSize: 15,
-				},
+				options={({ navigation }) => ({
+					headerRight: () => (
+						<TouchableOpacity
+							style={styles.buttonStyle}
+							onPress={() => navigation.navigate('Search')}>
+							<Ionicons name="search-outline" size={22} color='white' />
+						</TouchableOpacity>
+					),
+					headerTitle: () => <LogoMini />,
+					drawerActiveBackgroundColor: 'gold',
+					drawerActiveTintColor: '#000',
+					drawerInactiveTintColor: 'white',
+					drawerLabelStyle: {
+						fontFamily: 'Roboto-Medium',
+						fontSize: 15,
+					},
 
-				drawerIcon: ({ color }) => (
-					<Ionicons name="settings-outline" size={22} color={color} />
-				),
-			})}
-			
-			
-			 />
+					drawerIcon: ({ color }) => (
+						<Ionicons name="settings-outline" size={22} color={color} />
+					),
+				})}
+
+
+			/>
+
 
 			{/* not show the search menu */}
 			<Drawer.Screen name="Search" options={{
@@ -139,12 +140,26 @@ export function AppStack({ }) {
 				title: undefined,
 				drawerIcon: () => null,
 			}} component={SearchScreen} />
-			<Drawer.Screen name="ChangeEmail" options={{
+			<Drawer.Screen name="MoviezzForYou" options={{
+				headerShown: false,
+
+				drawerLabel: () => null,
+				title: undefined,
+				drawerIcon: () => null,
+			}} component={MoviezzForYouScreen} />
+			<Drawer.Screen name="TopMoviezz" options={{
+				headerShown: false,
+
+				drawerLabel: () => null,
+				title: undefined,
+				drawerIcon: () => null,
+			}} component={TopMoviezzScreen} />
+			<Drawer.Screen name="ChangeUserName" options={{
 				headerShown: false,
 				drawerLabel: () => null,
 				title: undefined,
 				drawerIcon: () => null,
-			}} component={ChangeEmailScreen} />
+			}} component={ChangeUserNameScreen} />
 			<Drawer.Screen name="ChangePassword" options={{
 				headerShown: false,
 				drawerLabel: () => null,
@@ -166,17 +181,12 @@ export function AppStack({ }) {
 	);
 }
 const styles = StyleSheet.create({
-	imgStyle: {
-		width: 30,
-		height: 30,
-	},
+
 	buttonStyle: {
 		padding: 5,
 		paddingRight: 14,
 		paddingLeft: 14,
 		borderRadius: 5,
 	},
-	textStyle: {
-		color: '#fff', // Ajout d'une couleur de texte pour améliorer la visibilité
-	},
+
 })

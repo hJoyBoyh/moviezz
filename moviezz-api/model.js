@@ -31,12 +31,12 @@ const apiCall = async (endpoint, params) => {
 		});
 }
 
-export const fetchTrendingMovies = async () => {
-	return apiCall(TRENDING_MOVIE, null)
+export const fetchTrendingMovies = async (pageNumber) => {
+	return apiCall(TRENDING_MOVIE, { page: `${pageNumber}`})
 }
 
-export const fetchTopMovies = async () => {
-	return apiCall(TOP_MOVIE, null)
+export const fetchTopMovies = async (pageNumber) => {
+	return apiCall(TOP_MOVIE, { page: `${pageNumber}`})
 }
 
 export const fetchDiscoverMovies = async () => {

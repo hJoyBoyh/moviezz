@@ -38,18 +38,9 @@ const styles = StyleSheet.create({
 		borderRadius: 10,
 		marginBottom: 10
 	},
-	textTitle: {
 
-		color: 'white',
-		textAlign: 'center',
-
-		position: 'absolute',
-
-	},
 	text: {
-
 		color: 'white',
 		textAlign: 'center',
-
 	}
 });

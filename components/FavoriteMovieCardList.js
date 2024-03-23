@@ -12,7 +12,7 @@ export function FavoriteMovieCardList({ data, firstWord, restWord, handleSeeAll 
 	return (
 		<ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollViewContainer}>
 			<View>
-				<SubTitle firstWord={firstWord} restWord={restWord} hideSeeAll={false} onPress={handleSeeAll} />
+				<SubTitle firstWord={firstWord} restWord={restWord} hideSeeAll={true} onPress={handleSeeAll} />
 				<FlatList
 					data={data}
 					showsHorizontalScrollIndicator={false}
