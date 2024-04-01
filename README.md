@@ -1,6 +1,6 @@
-##Moviezz app
+## Moviezz app
 
-##-EN-
+## -EN-
 Technology used
 * React-native
 
